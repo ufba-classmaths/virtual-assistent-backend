@@ -16,8 +16,8 @@ class TopicController extends Controller
      */
     public function index()
     {
-        $topics = Topic::get();
-        return Responser::success($topics, 'Users');
+        // $topics = Topic::get();
+        return Responser::success(null, 'Topics');
     }
 
     /**

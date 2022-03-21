@@ -16,8 +16,8 @@ class TagController extends Controller
      */
     public function index()
     {
-        $tags = Tag::get();
-        return Responser::success($tags, 'Tags');
+        // $tags = Tag::get();
+        return Responser::success(null, 'Tags');
     }
 
     /**
