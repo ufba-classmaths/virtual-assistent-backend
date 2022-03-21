@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Topic;
 use App\Http\Requests\StoreTopicRequest;
 use App\Http\Requests\UpdateTopicRequest;
+use App\Models\Responser;
 
 class TopicController extends Controller
 {
@@ -15,7 +16,8 @@ class TopicController extends Controller
      */
     public function index()
     {
-        //
+        $topics = Topic::get();
+        return Responser::success($topics, 'Users');
     }
 
     /**

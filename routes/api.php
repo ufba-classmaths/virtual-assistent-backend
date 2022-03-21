@@ -1,5 +1,8 @@
 <?php
 
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\TopicController;
+use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -14,12 +17,35 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
 
-Route::prefix('users')->group(function () {
-    Route::get('/', function () {
-        return 'Hi!';
+Route::prefix('v1')->group(function () {
+    Route::prefix('users')->group(function () {
+        Route::get('/', [UserController::class, 'index']);
+    });
+
+    Route::prefix('topics')->group(function () {
+        Route::get('/', [TopicController::class, 'index']);
+    });
+
+    Route::prefix('tags')->group(function () {
+        Route::get('/', [TopicController::class, 'index']);
     });
 });
+
+
+Route::prefix('v2')->group(function () {
+    Route::patch('/auth/updatePassword/user/{user}/password/{password}', [AuthController::class, 'updatePassword']);
+    Route::post('/auth/login', [AuthController::class, 'login']);
+    Route::patch('/auth/register/user/{user}', [UserController::class, 'update']);
+});
+
+
+
+Route::prefix('v3')->group(
+    function () {
+        Route::group(['middleware' => ['auth:sanctum']], function () {
+
+            Route::post('auth/logout', [AuthController::class, 'logout']);
+        });
+    }
+);
