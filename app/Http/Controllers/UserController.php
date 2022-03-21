@@ -16,7 +16,8 @@ class UserController extends Controller
     public function index()
     {
         // $users = User::get();
-        return Responser::success(null, 'Users');
+        // return Responser::success(null, 'Users');
+        return "List of Users";
     }
 
     /**
