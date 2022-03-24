@@ -66,6 +66,7 @@ class AuthController extends Controller
         $payload = $request->all();
 
         $user = User::getUserDecripted($payload['email']);
+
         if ($user) {
             if (!Hash::check($payload['password'], $user->password)) {
                 return Responser::error('Credenciais incorretas', 403);
@@ -78,7 +79,7 @@ class AuthController extends Controller
 
 
             return Responser::success([
-                'user' => User::build($user),
+                'user' => $user->build(),
                 'token' => $user->createToken('API Token')->plainTextToken,
             ], 'Login');
         }

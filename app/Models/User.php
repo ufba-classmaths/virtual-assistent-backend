@@ -29,7 +29,6 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $hidden = [
-        'password',
         'remember_token',
     ];
 
@@ -40,5 +39,32 @@ class User extends Authenticatable
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
+        'name' => 'encrypted',
+        'email' => 'encrypted',
     ];
+
+    public function address()
+    {
+        return $this->hasOne(Address::class);
+    }
+
+    public  function build(): array
+    {
+        return [
+            "id" => $this->id,
+            "name" => $this->name,
+            "email" => $this->email,
+        ];
+    }
+    public static function getUserDecripted($email)
+    {
+        $users = User::all();
+        for ($i = 0; $i < count($users); $i++) {
+            if ($users[$i]['email'] === $email) {
+                return $users[$i];
+            }
+        }
+
+        return null;
+    }
 }
