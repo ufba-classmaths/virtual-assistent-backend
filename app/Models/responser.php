@@ -52,46 +52,4 @@ class Responser extends Model
             $code
         );
     }
-    /**
-     * Return an error JSON response.
-     *
-     * @param  string  $message
-     * @param  int  $code
-     * @param  array|string|null  $data
-     * @return \Illuminate\Http\JsonResponse
-     */
-    protected static function standardSuccessController(string $obj = '', int $code = 200, $option)
-    {
-        $message = [
-            "store" => ' registrado com sucesso',
-            "update" => ' atualizado com sucesso',
-            "destroy" => ' deletado com sucesso',
-        ];
-        return response(
-            [
-                'status' => 'Success',
-                'message' => $obj . $message[$option],
-            ],
-            $code
-        );
-    }
-    /**
-     * Return an error JSON response.
-     *
-     * @param  string  $message
-     * @param  int  $code
-     * @param  array|string|null  $data
-     * @return \Illuminate\Http\JsonResponse
-     */
-    protected static function standardErrorController(string $obj = '', int $code, $option)
-    {
-
-        return response(
-            [
-                'status' => 'Error',
-                'message' => $obj . ' nao encontrado',
-            ],
-            $code
-        );
-    }
 }
