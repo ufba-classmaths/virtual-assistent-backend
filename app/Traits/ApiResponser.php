@@ -1,10 +1,19 @@
 <?php
 
-namespace App\Models;
+namespace App\Traits;
 
-use Illuminate\Database\Eloquent\Model;
+use Carbon\Carbon;
 
-class Responser extends Model
+/*
+|--------------------------------------------------------------------------
+| Api Responser Trait
+|--------------------------------------------------------------------------
+|
+| This trait will be used for any response we sent to clients.
+|
+*/
+
+trait ApiResponser
 {
     /**
      * Return a success JSON response.

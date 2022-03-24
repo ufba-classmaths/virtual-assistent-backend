@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\UserLoginRequest;
-use App\Models\Responser;
 use App\Models\User;
+use App\Traits\ApiResponser;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Support\Facades\Auth;
@@ -13,26 +13,27 @@ use Illuminate\Support\Facades\Hash;
 class AuthController extends Controller
 {
 
+    use ApiResponser;
     public function codeValidation($cod, $is_invitation)
     {
         try {
             $user = User::where('token', 'like', substr($cod, 0, 3) . '%' . substr($cod, -3))->first();
             if ($user) {
                 if ($is_invitation) {
-                    return Responser::success(User::buildSimple($user), 'Usuário');
+                    return $this->success(User::buildSimple($user), 'Usuário');
                 }
                 $date1 = Carbon::create($user->token_time);
                 $date2 = Carbon::create(now());
                 if ($date1->diffInHours($date2) <= 24) {
                     $user->token = null;
                     $user->update();
-                    return Responser::success(User::build($user), 'Usuário');
+                    return $this->success(User::build($user), 'Usuário');
                 }
             } else {
-                return Responser::error('codigo inválido ou expirado', 404);
+                return $this->error('codigo inválido ou expirado', 404);
             }
         } catch (Exception $e) {
-            return Responser::error($e->getMessage(), 400);
+            return $this->error($e->getMessage(), 400);
         }
     }
 
@@ -46,19 +47,19 @@ class AuthController extends Controller
 
         if ($user) {
             if (!Hash::check($payload['password'], $user->password)) {
-                return Responser::error('Credenciais incorretas', 403);
+                return $this->error('Credenciais incorretas', 403);
             }
 
             $this->logout($user);
             Auth::login($user);
 
-            return Responser::success([
+            return $this->success([
                 'user' => $user->build(),
                 'token' => $user->createToken('API Token')->plainTextToken,
             ], 'Login');
         }
 
-        return Responser::error('Usuário não cadastrado', 404);
+        return $this->error('Usuário não cadastrado', 404);
     }
 
 
@@ -72,7 +73,7 @@ class AuthController extends Controller
 
         Auth::login($user);
 
-        return Responser::success([
+        return $this->success([
             'user' => User::build($user),
             'token' => $user->createToken('API Token')->plainTextToken,
         ], 'Senha', 'update');
