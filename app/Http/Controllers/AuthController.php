@@ -83,10 +83,7 @@ class AuthController extends Controller
     public function logout(User $user)
     {
         if ($user) {
-
             $user->tokens()->delete();
-
-            return Responser::success(null, 'Tokens Revoked');
         }
     }
 }
