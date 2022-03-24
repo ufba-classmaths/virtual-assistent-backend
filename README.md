@@ -16,6 +16,9 @@
 > php artisan serve
 - It will return a link of server where service is runing. Access that link and check if a laravel base page is shown. That is it! 
 
+## Heroku's server link
+- It is the URL used do take requests to Virtual Assistent API: (https://virtual-assistent-backend.herokuapp.com/)
+
 ## Requiriments of system
 - The requiriments of project is avalilable in: (https://drive.google.com/drive/folders/1wQ_EoAkUwsMh9vt8VNHWr2dJ2YOKP9y1?usp=sharing)
 
