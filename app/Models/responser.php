@@ -2,24 +2,21 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Responser extends Model
 {
-    use HasFactory;
-
     /**
      * Return a success JSON response.
      *
      * @param  array|string  $data
-     * @param  string  $message
+     * @param  string  $obj
+     * @param  string  $option
      * @param  int|null  $code
      * @return \Illuminate\Http\JsonResponse
      */
-    protected static function success($data = null, $obj = '', $option = "standard", int $code = 200)
+    protected static function success($obj = '', $option = "standard", $data = null, int $code = 200,)
     {
-
         $message = [
             "standard" => "Operação realizada com sucesso",
             "store" => ' realizado(a) com sucesso',
@@ -31,7 +28,6 @@ class Responser extends Model
                 'status' => 'Success',
                 'message' => $obj . ' ' . $message[$option],
                 'data' => $data
-
             ],
             $code
         );
