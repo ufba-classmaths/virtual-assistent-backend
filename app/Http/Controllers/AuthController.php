@@ -3,38 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\UserLoginRequest;
-use App\Mail\RecoverCode2;
-use App\Mail\SendInvitation;
 use App\Models\Responser;
 use App\Models\User;
-use App\Traits\ApiResponser;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Http;
-use Illuminate\Support\Facades\Mail;
 
 class AuthController extends Controller
 {
-
-
-    // public function recoverCode($document)
-    // {
-    //     $user = User::getUserDecripted($document);
-
-    //     if ($user) {
-    //         Mail::send(new RecoverCode2($user));
-    //         $email = explode('@', decrypt($user->email));
-    //         return Responser::success(null, 'Email enviado para:  ' . substr($email[0], 0, 3) . '*****@' . substr($email[1], 0, 3) . '*****');
-    //     }
-
-    //     return Responser::error('Email não encontrado', 404);
-    // }
-
-
-
 
     public function codeValidation($cod, $is_invitation)
     {
@@ -72,11 +49,8 @@ class AuthController extends Controller
                 return Responser::error('Credenciais incorretas', 403);
             }
 
-
-            // $this->logout($user);
+            $this->logout($user);
             Auth::login($user);
-
-
 
             return Responser::success([
                 'user' => $user->build(),

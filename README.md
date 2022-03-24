@@ -16,6 +16,16 @@
 > php artisan serve
 - It will return a link of server where service is runing. Access that link and check if a laravel base page is shown. That is it! 
 
+
+### Config database in Heroku
+- After define its migrations, to run in Heroku you'll need config a database. We are using Postgre (Heroku Postgre), provided by 
+Herokus for free. This database service has some limitations like:
+-- maximum of 10,000 rows
+-- 20 connections
+-- maximum 10 MB of data
+
+- To config that in Heroku you can follow that tutorial:
+> (https://www.youtube.com/watch?v=639Pe0PpVLQ)
 ## Heroku's server link
 - It is the URL used do take requests to Virtual Assistent API: (https://virtual-assistent-backend.herokuapp.com/)
 
