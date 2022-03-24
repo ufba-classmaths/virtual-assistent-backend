@@ -23,9 +23,25 @@ Herokus for free. This database service has some limitations like:
 -- maximum of 10,000 rows
 -- 20 connections
 -- maximum 10 MB of data
+- orther infos:
+-- Plan:                  Hobby-dev
+-- Status:                Available
+-- Connections:           0/20
+-- PG Version:            14.2
+-- Created:               2022-03-24 18:03 UTC
+-- Data Size:             9.2 MB/1.00 GB (In compliance)
+-- Tables:                9
+-- Rows:                  -9/10000 (In compliance)
+-- Fork/Follow:           Unsupported
+-- Rollback:              Unsupported
 
 - To config that in Heroku you can follow that tutorial:
 > (https://www.youtube.com/watch?v=639Pe0PpVLQ)
+
+- after config run the command
+> heroku run bash --app=virtual-assistent-backend
+- It'll connect to apach2 in Heroku. So run the command
+> php artisan migrate --seeder
 ## Heroku's server link
 - It is the URL used do take requests to Virtual Assistent API: (https://virtual-assistent-backend.herokuapp.com/)
 
