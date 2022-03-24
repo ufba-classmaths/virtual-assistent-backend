@@ -20,14 +20,14 @@ class AuthController extends Controller
             $user = User::where('token', 'like', substr($cod, 0, 3) . '%' . substr($cod, -3))->first();
             if ($user) {
                 if ($is_invitation) {
-                    return $this->success(User::buildSimple($user), 'User');
+                    return $this->success($user->build(), 'User');
                 }
                 $date1 = Carbon::create($user->token_time);
                 $date2 = Carbon::create(now());
                 if ($date1->diffInHours($date2) <= 24) {
                     $user->token = null;
                     $user->update();
-                    return $this->success('User', User::build($user));
+                    return $this->success('User', $user->build());
                 }
             } else {
                 return $this->error('Code is not valid!', 404);
@@ -54,7 +54,7 @@ class AuthController extends Controller
             Auth::login($user);
 
             return $this->success('Wellcome ' . $user->name, [
-                'user' => User::build($user),
+                'user' => $user->build($user),
                 'token' => $user->createToken('API Token')->plainTextToken,
             ]);
         }
@@ -74,7 +74,7 @@ class AuthController extends Controller
         Auth::login($user);
 
         return $this->success('Wellcome ' . $user->name, [
-            'user' => User::build($user),
+            'user' => $user->build($user),
             'token' => $user->createToken('API Token')->plainTextToken,
         ]);
     }
