@@ -20,17 +20,17 @@ class AuthController extends Controller
             $user = User::where('token', 'like', substr($cod, 0, 3) . '%' . substr($cod, -3))->first();
             if ($user) {
                 if ($is_invitation) {
-                    return $this->success(User::buildSimple($user), 'Usuário');
+                    return $this->success(User::buildSimple($user), 'User');
                 }
                 $date1 = Carbon::create($user->token_time);
                 $date2 = Carbon::create(now());
                 if ($date1->diffInHours($date2) <= 24) {
                     $user->token = null;
                     $user->update();
-                    return $this->success(User::build($user), 'Usuário');
+                    return $this->success('User', User::build($user));
                 }
             } else {
-                return $this->error('codigo inválido ou expirado', 404);
+                return $this->error('Code is not valid!', 404);
             }
         } catch (Exception $e) {
             return $this->error($e->getMessage(), 400);
@@ -53,13 +53,13 @@ class AuthController extends Controller
             $this->logout($user);
             Auth::login($user);
 
-            return $this->success([
-                'user' => $user->build(),
+            return $this->success('Wellcome ' . $user->name, [
+                'user' => User::build($user),
                 'token' => $user->createToken('API Token')->plainTextToken,
-            ], 'Login');
+            ]);
         }
 
-        return $this->error('Usuário não cadastrado', 404);
+        return $this->error('User não cadastrado', 404);
     }
 
 
@@ -73,10 +73,10 @@ class AuthController extends Controller
 
         Auth::login($user);
 
-        return $this->success([
+        return $this->success('Wellcome ' . $user->name, [
             'user' => User::build($user),
             'token' => $user->createToken('API Token')->plainTextToken,
-        ], 'Senha', 'update');
+        ]);
     }
 
 
