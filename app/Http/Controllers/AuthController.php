@@ -9,6 +9,7 @@ use Carbon\Carbon;
 use Exception;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Throwable;
 
 class AuthController extends Controller
 {
@@ -41,25 +42,30 @@ class AuthController extends Controller
 
     public function login(UserLoginRequest $request)
     {
-        $payload = $request->all();
+        try {
+            return $request;
+            return $payload = $request->all();
 
-        $user = User::getUserDecripted($payload['email']);
+            $user = User::getUserDecripted($payload['email']);
 
-        if ($user) {
-            if (!Hash::check($payload['password'], $user->password)) {
-                return $this->error('Credenciais incorretas', 403);
+            if ($user) {
+                if (!Hash::check($payload['password'], $user->password)) {
+                    return $this->error('Credenciais incorretas', 403);
+                }
+
+                $this->logout($user);
+                Auth::login($user);
+
+                return $this->success('Wellcome ' . $user->name, [
+                    'user' => $user->build($user),
+                    'token' => $user->createToken('API Token')->plainTextToken,
+                ]);
             }
 
-            $this->logout($user);
-            Auth::login($user);
-
-            return $this->success('Wellcome ' . $user->name, [
-                'user' => $user->build($user),
-                'token' => $user->createToken('API Token')->plainTextToken,
-            ]);
+            return $this->error('User não cadastrado', 404);
+        } catch (Throwable $e) {
+            return $request;
         }
-
-        return $this->error('User não cadastrado', 404);
     }
 
 
