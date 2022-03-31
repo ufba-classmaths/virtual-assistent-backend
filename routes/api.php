@@ -46,6 +46,14 @@ Route::prefix('v3')->group(
         Route::group(['middleware' => ['auth:sanctum']], function () {
 
             Route::post('auth/logout', [AuthController::class, 'logout']);
+
+
+            Route::prefix('nlps')->group(function () {
+                Route::get("/", [UserController::class, "index"]);
+                Route::post("/", [UserController::class, "store"]);
+                Route::patch("/{user}", [UserController::class, "update"]);
+                Route::delete("/{user}", [UserController::class, "destroy"]);
+            });
         });
     }
 );
