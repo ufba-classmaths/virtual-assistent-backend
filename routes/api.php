@@ -48,6 +48,11 @@ Route::prefix('v3')->group(
             Route::post('auth/logout', [AuthController::class, 'logout']);
 
 
+            Route::prefix('topics')->group(function () {
+                Route::post('/csv', [TopicController::class, 'create']);
+            });
+
+
             Route::prefix('nlps')->group(function () {
                 Route::get("/", [UserController::class, "index"]);
                 Route::post("/", [UserController::class, "store"]);
