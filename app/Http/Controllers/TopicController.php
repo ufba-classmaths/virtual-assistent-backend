@@ -18,9 +18,6 @@ class TopicController extends Controller
      */
     public function index()
     {
-        // $topics = Topic::get();
-        // return Responser::success(null, 'Topics');
-        return "List of Tópics";
     }
 
     /**
@@ -41,7 +38,7 @@ class TopicController extends Controller
             unset($csv_data[0]);
 
             $csv_data = $this->toUtf8($csv_data);
-            return $this->toCsvQuestion($csv_data);
+            return MenuController::build($this->toCsvQuestion($csv_data));
         }
     }
 
@@ -70,6 +67,8 @@ class TopicController extends Controller
 
         return $csvQuestions;
     }
+
+
 
     /**
      * Store a newly created resource in storage.
