@@ -70,6 +70,4 @@
 ## Documentation of API
 
 That link show the API documentation
-> <https://silvaengcomp.github.io/virtual-assistent-backend/>
-
-testando
+> <https://ufba-classmaths.github.io/virtual-assistent-backend/>
