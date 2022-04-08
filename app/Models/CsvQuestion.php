@@ -7,44 +7,44 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class CsvQuestion
 {
 
-    private string $question;
+    private string $description;
     private string $answare;
-    private array $tags;
+    private array $path;
 
     function __construct(array $csvData)
     {
         if (count($csvData) === 3) {
-            $this->setQuestion($csvData[0]);
+            $this->setDescription($csvData[0]);
             $this->setAnsware($csvData[1]);
-            $this->setTags($csvData[2]);
+            $this->setPath($csvData[2]);
         }
     }
 
     public function build()
     {
         return [
-            "question" => $this->getQuestion(),
+            "description" => $this->getDescription(),
             "answare" => $this->getAnsware(),
-            "tags" => $this->getTags(),
+            "path" => $this->getPath(),
         ];
     }
 
     /**
-     * Get the value of question
+     * Get the value of description
      */
-    public function getQuestion()
+    public function getDescription()
     {
-        return $this->question;
+        return $this->description;
     }
 
     /**
-     * Set the value of question
+     * Set the value of description
      *
      * @return  self
      */
-    public function setQuestion($question)
+    public function setDescription($description)
     {
-        $this->question = $question;
+        $this->description = $description;
 
         return $this;
     }
@@ -70,22 +70,22 @@ class CsvQuestion
     }
 
     /**
-     * Get the value of tags
+     * Get the value of path
      */
-    public function getTags(): array
+    public function getPath(): array
     {
-        return $this->tags;
+        return $this->path;
     }
 
     /**
-     * Set the value of tags
+     * Set the value of path
      *
      * @return  self
      */
-    public function setTags($tags)
+    public function setPath($path)
     {
 
-        $this->tags = explode('/', $tags);
+        $this->path = explode('/', $path);
 
         return $this;
     }

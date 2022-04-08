@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CsvController;
 use App\Http\Controllers\TopicController;
 use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
@@ -48,8 +49,8 @@ Route::prefix('v3')->group(
             Route::post('auth/logout', [AuthController::class, 'logout']);
 
 
-            Route::prefix('topics')->group(function () {
-                Route::post('/csv', [TopicController::class, 'create']);
+            Route::prefix('csv')->group(function () {
+                Route::post('/', [CsvController::class, 'store']);
             });
 
 

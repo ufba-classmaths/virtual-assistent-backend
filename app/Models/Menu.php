@@ -8,9 +8,9 @@ class Menu
     public array $questions;
     public array $submenu;
 
-    function __construct($tag)
+    function __construct($tag = '')
     {
-        $this->setTag($tag);
+        $this->tag = $tag;
         $this->questions = [];
         $this->submenu = [];
     }
@@ -31,16 +31,8 @@ class Menu
      */
     public function getSubmenu()
     {
-        $removedMenu = null;
-        if (count($this->submenu) > 1) {
-            $removedMenu = $this->submenu[0];
 
-            $this->submenu = array_splice($this->submenu, 1);
-        }
-        if (count($this->submenu) == 0 && $removedMenu) {
-            return $removedMenu->build();
-        }
-        return $this->getSubmenu($this->submenu);
+        return $this->submenu;
     }
 
     /**
@@ -50,7 +42,7 @@ class Menu
      *
      * @return  self
      */
-    public function setSubmenu($submenu)
+    public function setSubmenu(Menu | null $submenu)
     {
         array_push($this->submenu, $submenu);
 
@@ -74,12 +66,17 @@ class Menu
      *
      * @return self
      */
-    public function setQuestions(array $questions): self
+    public  function setQuestions(array $questions): self
     {
+
         $this->questions = $questions;
 
         return $this;
     }
+
+
+
+
 
     /**
      * Get the value of tag
