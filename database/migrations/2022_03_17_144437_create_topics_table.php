@@ -15,11 +15,11 @@ class CreateTopicsTable extends Migration
     {
         Schema::create('topics', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('type_id')->nullable();
+            $table->unsignedBigInteger('topic_id')->nullable();
             $table->text('description');
             $table->timestamps();
 
-            $table->foreign('type_id')->references('id')->on('types')->onDelete('set null')->onUpdate('cascade');
+            $table->foreign('topic_id')->references('id')->on('topics')->onDelete('set null')->onUpdate('cascade');
         });
     }
 

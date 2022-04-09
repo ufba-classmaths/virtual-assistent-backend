@@ -19,6 +19,10 @@ use Illuminate\Support\Facades\Route;
 */
 
 
+Route::post('/test/{topic}', [TopicController::class, 'show']);
+
+
+
 Route::prefix('v1')->group(function () {
     Route::prefix('users')->group(function () {
         Route::get('/', [UserController::class, 'index']);

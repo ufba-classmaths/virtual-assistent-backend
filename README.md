@@ -71,3 +71,7 @@
 
 That link show the API documentation
 > <https://ufba-classmaths.github.io/virtual-assistent-backend/>
+
+usuário colocar barra em categoria
+questões em todas as categorias
+como o usupario var navegar nas subcategorias
