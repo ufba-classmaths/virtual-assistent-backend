@@ -44,7 +44,10 @@ class TopicController extends Controller
     public function show(Topic $topic)
     {
         if ($topic) {
-            return response(['topics' =>  $topic->getTopics()->get()]);
+            return response([
+                'topics' =>  $topic->getTopics()->get(),
+                'questions' =>  $topic->getQuestions(),
+            ]);
         }
     }
 

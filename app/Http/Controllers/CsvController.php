@@ -3,10 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Models\CsvQuestion;
+use App\Traits\ApiResponser;
 use Illuminate\Http\Request;
 
 class CsvController extends Controller
 {
+
+    use ApiResponser;
     /**
      * Show the form for creating a new resource.
      *
@@ -14,8 +17,6 @@ class CsvController extends Controller
      */
     public function store(Request $request)
     {
-
-        // $objects =  explode(',', preg_replace('/[\{\}\[\]\" "]+/', '', $request->input('headers')));
 
         $file = $request->file('questions');
         if ($file) {
@@ -25,8 +26,11 @@ class CsvController extends Controller
             unset($csv_data[0]);
 
             $csv_data = $this->toUtf8($csv_data);
-            return MenuController::build($this->toCsvQuestion($csv_data));
+            $csvQuestions = $this->toCsvQuestion($csv_data);
+            return MenuController::build($csvQuestions);
         }
+
+        return $this->error('Not file founded', 404);
     }
 
     public function toUtf8($csv_data): array
@@ -36,7 +40,6 @@ class CsvController extends Controller
         foreach ($csv_data as $data) {
             for ($i = 0; $i < count($data); $i++) {
                 $data[$i] = utf8_encode($data[$i]);
-                // $paper = Paper::inputPaper($base, $data, $headers, $review);
             }
             array_push($utfEncoded, $data);
         }
