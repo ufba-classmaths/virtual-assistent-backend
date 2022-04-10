@@ -9,6 +9,8 @@ use Illuminate\Http\Request;
 
 class MenuController extends Controller
 {
+
+
     /**
      * Display a listing of the resource.
      *
@@ -98,16 +100,21 @@ class MenuController extends Controller
     public static function regiterTopic(array $topicNames)
     {
         if ($topicNames) {
-            $father_id = null;
+            $parent = null;
             foreach ($topicNames as $name) {
+
                 $topic = Topic::where('name', $name)->first();
                 if (!$topic) {
                     $topic = Topic::create([
                         "name" => $name,
-                        "topic_id" => $father_id,
                     ]);
                 }
-                $father_id = $topic->id;
+                if ($parent) {
+                    $node = Topic::find($parent);
+
+                    $node->appendNode($topic);
+                }
+                $parent = $topic->id;
             }
         }
     }

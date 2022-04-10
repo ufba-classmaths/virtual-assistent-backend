@@ -3,26 +3,29 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Kalnoy\Nestedset\NodeTrait;
 
 class Topic extends Model
 {
-    use HasFactory;
+    use NodeTrait;
 
 
     protected $fillable = [
         "name",
-        "topic_id"
     ];
-    public function getTopics()
-    {
-        return $this->hasMany(Topic::class);
-    }
 
+    /**
+     * The attributes that should be hidden for serialization.
+     *
+     * @var array<int, string>
+     */
+    protected $hidden = [
+        '_lft', '_rgt', 'parent_id', 'created_at', 'updated_at',
+    ];
 
-    public function getQuestions(): Collection
+    public function questions()
     {
-        return Question::where('topic_id', $this->id)->get();
+        return $this->hasMany(Question::class);
     }
 }

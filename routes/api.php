@@ -57,6 +57,7 @@ Route::prefix('v3')->group(
             });
 
             Route::prefix('topics')->group(function () {
+                Route::get('/', [TopicController::class, 'index']);
                 Route::get('/{topic}', [TopicController::class, 'show']);
             });
 
