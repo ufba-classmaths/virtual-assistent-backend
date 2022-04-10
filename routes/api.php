@@ -57,17 +57,17 @@ Route::prefix('v3')->group(
             });
 
             Route::prefix('topics')->group(function () {
-                Route::get('/', [TopicController::class, 'index']);
+                Route::get('/', [TopicController::class, 'index'])->name('get all topics');
                 Route::get('/{topic}', [TopicController::class, 'show']);
             });
 
 
-            Route::prefix('nlps')->group(function () {
-                Route::get("/", [NlpController::class, "index"]);
-                Route::post("/", [NlpController::class, "store"]);
-                Route::patch("/{user}", [NlpController::class, "update"]);
-                Route::delete("/{user}", [NlpController::class, "destroy"]);
-            });
+            // Route::prefix('nlps')->group(function () {
+            //     Route::get("/", [NlpController::class, "index"]);
+            //     Route::post("/", [NlpController::class, "store"]);
+            //     Route::patch("/{user}", [NlpController::class, "update"]);
+            //     Route::delete("/{user}", [NlpController::class, "destroy"]);
+            // });
 
             Route::prefix('users')->group(function () {
                 Route::get("/", [UserController::class, "index"]);
