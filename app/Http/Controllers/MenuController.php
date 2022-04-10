@@ -114,12 +114,14 @@ class MenuController extends Controller
     public static function regiterQuestion(Menu $menu)
     {
         if ($menu) {
+            $topic = Topic::where('name', $menu->getName())->first();
             foreach ($menu->getQuestions() as $question) {
                 $topic = Topic::where('name', $menu->getName())->first();
                 if ($topic) {
                     Question::create([
-                        "description" => $question->description,
-                        "answare" => $question->answare,
+                        "description" => $question["description"],
+                        "answare" => $question["answare"],
+                        "topic_id" => $topic->id
                     ]);
                 }
             }

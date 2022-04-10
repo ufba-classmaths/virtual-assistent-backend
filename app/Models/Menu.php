@@ -56,7 +56,7 @@ class Menu
      */
     public function getQuestions()
     {
-        return json_encode($this->questions);
+        return $this->questions;
     }
 
     /**
