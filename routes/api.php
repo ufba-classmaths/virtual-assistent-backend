@@ -62,13 +62,6 @@ Route::prefix('v3')->group(
             });
 
 
-            // Route::prefix('nlps')->group(function () {
-            //     Route::get("/", [NlpController::class, "index"]);
-            //     Route::post("/", [NlpController::class, "store"]);
-            //     Route::patch("/{user}", [NlpController::class, "update"]);
-            //     Route::delete("/{user}", [NlpController::class, "destroy"]);
-            // });
-
             Route::prefix('users')->group(function () {
                 Route::get("/", [UserController::class, "index"]);
                 Route::get("/{user}", [UserController::class, "show"]);
