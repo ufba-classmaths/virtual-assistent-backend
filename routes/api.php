@@ -25,15 +25,7 @@ use Illuminate\Support\Facades\Route;
 
 
 Route::prefix('v1')->group(function () {
-    Route::prefix('users')->group(function () {
-        Route::get('/', [UserController::class, 'index']);
-    });
-
     Route::prefix('topics')->group(function () {
-        Route::get('/', [TopicController::class, 'index']);
-    });
-
-    Route::prefix('tags')->group(function () {
         Route::get('/', [TopicController::class, 'index']);
     });
 });
@@ -63,6 +55,7 @@ Route::prefix('v3')->group(
             });
 
             Route::prefix('questions')->group(function () {
+                Route::get('/', [QuestionController::class, 'index']);
                 Route::post('/', [QuestionController::class, 'store']);
                 Route::patch('/', [QuestionController::class, 'update']);
             });
