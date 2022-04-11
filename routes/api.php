@@ -63,8 +63,8 @@ Route::prefix('v3')->group(
             });
 
             Route::prefix('questions')->group(function () {
-                Route::post('/', [QuestionController::class, 'store'])->name('insertQuestions');
-                Route::update('/{topic}', [QuestionController::class, 'update']);
+                Route::post('/', [QuestionController::class, 'store']);
+                Route::patch('/', [QuestionController::class, 'update']);
             });
 
 

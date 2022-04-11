@@ -12,6 +12,14 @@ class QuestionController extends Controller
 {
 
     use ApiResponser;
+
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\QuestionRequest  $questionRequest
+     * @return \Illuminate\Http\Response
+     */
     public function store(QuestionRequest $questionRequest)
     {
         try {
@@ -26,7 +34,12 @@ class QuestionController extends Controller
         }
     }
 
-    use ApiResponser;
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\QuestionRequest  $questionRequest
+     * @return \Illuminate\Http\Response
+     */
     public function update(QuestionUpdateRequest $questionRequest)
     {
         try {
