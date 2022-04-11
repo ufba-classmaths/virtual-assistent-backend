@@ -26,10 +26,9 @@ class CreateQuestionRequest extends FormRequest
     public function rules()
     {
         return [
-            'Pergunta' => 'required|string|max:300',
-            'Resposta' => 'required|string|max:150',
-            'Categoria' => 'required|int',
-            'Menu' => 'required|int'
+            'description' => 'required|string|max:300',
+            'answare' => 'required|string|max:150',
+            'topic_id' => 'required|int'
         ];
     }
 
