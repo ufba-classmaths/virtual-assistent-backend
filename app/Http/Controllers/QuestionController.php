@@ -2,16 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\CreateQuestionRequest;
+use App\Http\Requests\QuestionRequest;
+use App\Http\Requests\QuestionUpdateRequest;
 use App\Traits\ApiResponser;
 use App\Models\Question;
 use Throwable;
 
-class AuthController extends Controller
+class QuestionController extends Controller
 {
 
     use ApiResponser;
-    public function createQuestion(QuestionRequest $questionRequest)
+    public function store(QuestionRequest $questionRequest)
     {
         try {
             Question::create([
@@ -23,10 +24,10 @@ class AuthController extends Controller
         } catch (Throwable $e) {
             return $this->error('Erro: ' + $e, 404);
         }
-    }    
-    
+    }
+
     use ApiResponser;
-    public function updateQuestion(QuestionUpdateRequest $questionRequest)
+    public function update(QuestionUpdateRequest $questionRequest)
     {
         try {
             Question::find($questionRequest["id"])->fill($questionRequest);

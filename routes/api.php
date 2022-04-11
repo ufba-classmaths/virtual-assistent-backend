@@ -3,6 +3,7 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CsvController;
 use App\Http\Controllers\NlpController;
+use App\Http\Controllers\QuestionController;
 use App\Http\Controllers\TopicController;
 use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
@@ -57,8 +58,13 @@ Route::prefix('v3')->group(
             });
 
             Route::prefix('topics')->group(function () {
-                Route::get('/', [TopicController::class, 'index'])->name('get all topics');
+                Route::get('/', [TopicController::class, 'index'])->name('getAllTopics');
                 Route::get('/{topic}', [TopicController::class, 'show']);
+            });
+
+            Route::prefix('questions')->group(function () {
+                Route::post('/', [QuestionController::class, 'store'])->name('insertQuestions');
+                Route::update('/{topic}', [QuestionController::class, 'update']);
             });
 
 
