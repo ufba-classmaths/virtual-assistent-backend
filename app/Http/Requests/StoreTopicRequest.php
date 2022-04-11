@@ -26,7 +26,7 @@ class StoreTopicRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            "name" => "required|string"
         ];
     }
     public function failedValidation(Validator $validator)

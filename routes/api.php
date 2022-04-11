@@ -52,6 +52,9 @@ Route::prefix('v3')->group(
             Route::prefix('topics')->group(function () {
                 Route::get('/', [TopicController::class, 'index'])->name('getAllTopics');
                 Route::get('/{topic}', [TopicController::class, 'show']);
+                Route::post('/', [TopicController::class, 'store']);
+                Route::patch('/{topic}', [TopicController::class, 'update']);
+                Route::delete('/{topic}', [TopicController::class, 'destroy']);
             });
 
             Route::prefix('questions')->group(function () {

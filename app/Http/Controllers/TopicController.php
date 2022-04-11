@@ -5,9 +5,12 @@ namespace App\Http\Controllers;
 use App\Models\Topic;
 use App\Http\Requests\StoreTopicRequest;
 use App\Http\Requests\UpdateTopicRequest;
+use App\Traits\ApiResponser;
 
 class TopicController extends Controller
 {
+
+    use ApiResponser;
     /**
      * Display a listing of the resource.
      *
@@ -27,7 +30,9 @@ class TopicController extends Controller
      */
     public function store(StoreTopicRequest $request)
     {
-        //
+        Topic::create($request->all());
+
+        return $this->success('Topic registred', 201);
     }
 
     /**
@@ -39,23 +44,12 @@ class TopicController extends Controller
     public function show(Topic $topic)
     {
         if ($topic) {
-            return response([
-                'topics' =>  $topic->getTopics()->get(),
-                'questions' =>  $topic->getQuestions(),
-            ]);
+            return Topic::descendantsAndSelf($topic->id)->toTree();
         }
+
+        return $this->error('Topic not found', 404);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Topic  $topic
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Topic $topic)
-    {
-        //
-    }
 
     /**
      * Update the specified resource in storage.
@@ -66,7 +60,13 @@ class TopicController extends Controller
      */
     public function update(UpdateTopicRequest $request, Topic $topic)
     {
-        //
+        if ($topic) {
+            $topic->name = $request->input('name');
+            $topic->update();
+            return $this->success('Topic update', 200);
+        }
+
+        return $this->error('Topic not found', 404);
     }
 
     /**
@@ -77,6 +77,11 @@ class TopicController extends Controller
      */
     public function destroy(Topic $topic)
     {
-        //
+        if ($topic) {
+            $topic->delete();
+            return $this->success('Topic deleted', 200);
+        }
+
+        return $this->error('Topic not found', 404);
     }
 }
