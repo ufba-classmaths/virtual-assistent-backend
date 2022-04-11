@@ -5,7 +5,11 @@ namespace App\Http\Controllers;
 use App\Models\Topic;
 use App\Http\Requests\StoreTopicRequest;
 use App\Http\Requests\UpdateTopicRequest;
+use App\Models\CsvQuestion;
+use App\Models\Menu;
+use App\Models\Question;
 use App\Models\Responser;
+use Illuminate\Http\Request;
 
 class TopicController extends Controller
 {
@@ -16,20 +20,9 @@ class TopicController extends Controller
      */
     public function index()
     {
-        // $topics = Topic::get();
-        // return Responser::success(null, 'Topics');
-        return "List of Tópics";
+        return  Topic::with('questions')->get()->toTree();
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
 
     /**
      * Store a newly created resource in storage.
@@ -50,7 +43,12 @@ class TopicController extends Controller
      */
     public function show(Topic $topic)
     {
-        //
+        if ($topic) {
+            return response([
+                'topics' =>  $topic->getTopics()->get(),
+                'questions' =>  $topic->getQuestions(),
+            ]);
+        }
     }
 
     /**
