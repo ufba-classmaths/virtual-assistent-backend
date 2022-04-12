@@ -34,6 +34,24 @@ class TopicController extends Controller
 
         return $this->success('Topic registred', 201);
     }
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \App\Http\Requests\StoreTopicRequest  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function storeWithParent(StoreTopicRequest $request, Topic $parent)
+    {
+
+        if ($parent) {
+            $newTopic = Topic::create($request->all());
+
+            $parent->appendNode($newTopic);
+            return $this->success('Topic registred', 201);
+        }
+
+        return $this->error('Parent not found', 404);
+    }
 
     /**
      * Display the specified resource.
@@ -58,12 +76,12 @@ class TopicController extends Controller
      * @param  \App\Models\Topic  $topic
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateTopicRequest $request, Topic $topic)
+    public function update(StoreTopicRequest $request, Topic $topic)
     {
         if ($topic) {
             $topic->name = $request->input('name');
             $topic->update();
-            return $this->success('Topic update', 200);
+            return $this->success('Topic updated', 200);
         }
 
         return $this->error('Topic not found', 404);
