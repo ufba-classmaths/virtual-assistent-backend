@@ -20,7 +20,25 @@ class QuestionController extends Controller
      */
     public function index()
     {
-        return Question::get();
+        $questions =  Question::get();
+
+        return $questions->map(function ($question) {
+            return $question->build();
+        });
+    }
+    /**
+     * Display a listing of the resource.
+     *
+     * @return App\Models\Question $question
+     * @return \Illuminate\Http\Response
+     */
+    public function show(Question $question)
+    {
+        if ($question) {
+            return $question->build();
+        }
+
+        return $this->error('Question not founded', 404);
     }
 
     /**
