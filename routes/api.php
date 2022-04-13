@@ -49,6 +49,10 @@ Route::prefix('v3')->group(
                 Route::post('/', [CsvController::class, 'store']);
             });
 
+            Route::prefix('nlp')->group(function () {
+                Route::get('/', [NlpController::class, 'index']);
+            });
+
             Route::prefix('topics')->group(function () {
                 Route::get('/', [TopicController::class, 'index'])->name('getAllTopics');
                 Route::get('/{topic}', [TopicController::class, 'show']);
@@ -60,8 +64,10 @@ Route::prefix('v3')->group(
 
             Route::prefix('questions')->group(function () {
                 Route::get('/', [QuestionController::class, 'index']);
+                Route::get('/{question}', [QuestionController::class, 'show']);
                 Route::post('/', [QuestionController::class, 'store']);
-                Route::patch('/', [QuestionController::class, 'update']);
+                Route::patch('/{question}', [QuestionController::class, 'update']);
+                Route::delete('/{question}', [QuestionController::class, "destroy"]);
             });
 
 
