@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\QuestionRequest;
-use App\Http\Requests\QuestionUpdateRequest;
 use App\Traits\ApiResponser;
 use App\Models\Question;
 use Throwable;
@@ -69,7 +68,7 @@ class QuestionController extends Controller
             return $this->error('Erro: Registro não encontrado.', 404);
     }
 
-    
+
     /**
      * Remove the specified resource from storage.
      *
