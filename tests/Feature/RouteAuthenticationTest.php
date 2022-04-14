@@ -36,7 +36,7 @@ class RouterAuthenticationTest extends TestCase
      *
      * @return void
      */
-    public function test_update_user_password()
+    public function tes_update_user_password()
     {
         //Arrange
         // $this->init();
@@ -56,7 +56,7 @@ class RouterAuthenticationTest extends TestCase
      *
      * @return void
      */
-    public function test_authentication_acess_with_login_method()
+    public function tes_authentication_acess_with_login_method()
     {
         //Arrange
         $this->init();
@@ -77,7 +77,7 @@ class RouterAuthenticationTest extends TestCase
      *
      * @return void
      */
-    public function test_revoke_authentication_acess_with_logout_method()
+    public function tes_revoke_authentication_acess_with_logout_method()
     {
         //arrange
         $this->init();

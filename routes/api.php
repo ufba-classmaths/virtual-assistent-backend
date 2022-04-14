@@ -50,7 +50,7 @@ Route::prefix('v3')->group(
             });
 
             Route::prefix('nlp')->group(function () {
-                Route::get('/', [NlpController::class, 'index']);
+                Route::post('/', [NlpController::class, 'index']);
             });
 
             Route::prefix('topics')->group(function () {
