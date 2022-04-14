@@ -6,9 +6,12 @@ use App\Models\Responser;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Requests\StoreUserRequest;
+use App\Traits\ApiResponser;
 
 class UserController extends Controller
 {
+
+    use ApiResponser;
     /**
      * Display a listing of the resource.
      *
@@ -58,7 +61,13 @@ class UserController extends Controller
      */
     public function update(Request $request, User $user)
     {
-        //
+        if ($user) {
+            $user->name = $request->input('name');
+
+            $user->update();
+        }
+
+        return $this->error('User not founded', 404);
     }
 
     /**
