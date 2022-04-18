@@ -6,9 +6,12 @@ use App\Models\Responser;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Requests\StoreUserRequest;
+use App\Traits\ApiResponser;
 
 class UserController extends Controller
 {
+
+    use ApiResponser;
     /**
      * Display a listing of the resource.
      *
@@ -79,3 +82,4 @@ class UserController extends Controller
         }
     }
 }
+//pushtest

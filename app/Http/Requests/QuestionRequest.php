@@ -6,7 +6,7 @@ use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Contracts\Validation\Validator;
 
-class UpdateTopicRequest extends FormRequest
+class QuestionRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -15,7 +15,7 @@ class UpdateTopicRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -26,7 +26,9 @@ class UpdateTopicRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'description' => 'required|string|max:300',
+            'answare' => 'required|string|max:150',
+            'topic_id' => 'required|int'
         ];
     }
 

@@ -6,7 +6,7 @@ use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Contracts\Validation\Validator;
 
-class StoreTopicRequest extends FormRequest
+class NlpRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -26,9 +26,10 @@ class StoreTopicRequest extends FormRequest
     public function rules()
     {
         return [
-            "name" => "required|string"
+            "text" => "required"
         ];
     }
+
     public function failedValidation(Validator $validator)
     {
         $json = [

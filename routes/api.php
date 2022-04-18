@@ -3,6 +3,7 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CsvController;
 use App\Http\Controllers\NlpController;
+use App\Http\Controllers\QuestionController;
 use App\Http\Controllers\TopicController;
 use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
@@ -24,15 +25,7 @@ use Illuminate\Support\Facades\Route;
 
 
 Route::prefix('v1')->group(function () {
-    Route::prefix('users')->group(function () {
-        Route::get('/', [UserController::class, 'index']);
-    });
-
     Route::prefix('topics')->group(function () {
-        Route::get('/', [TopicController::class, 'index']);
-    });
-
-    Route::prefix('tags')->group(function () {
         Route::get('/', [TopicController::class, 'index']);
     });
 });
@@ -56,17 +49,27 @@ Route::prefix('v3')->group(
                 Route::post('/', [CsvController::class, 'store']);
             });
 
+            Route::prefix('nlp')->group(function () {
+                Route::post('/', [NlpController::class, 'index']);
+            });
+
             Route::prefix('topics')->group(function () {
+                Route::get('/', [TopicController::class, 'index'])->name('getAllTopics');
                 Route::get('/{topic}', [TopicController::class, 'show']);
+                Route::post('/', [TopicController::class, 'store']);
+                Route::post('/{parent}', [TopicController::class, 'storeWithParent']);
+                Route::patch('/{topic}', [TopicController::class, 'update']);
+                Route::delete('/{topic}', [TopicController::class, 'destroy']);
             });
 
-
-            Route::prefix('nlps')->group(function () {
-                Route::get("/", [NlpController::class, "index"]);
-                Route::post("/", [NlpController::class, "store"]);
-                Route::patch("/{user}", [NlpController::class, "update"]);
-                Route::delete("/{user}", [NlpController::class, "destroy"]);
+            Route::prefix('questions')->group(function () {
+                Route::get('/', [QuestionController::class, 'index']);
+                Route::get('/{question}', [QuestionController::class, 'show']);
+                Route::post('/', [QuestionController::class, 'store']);
+                Route::patch('/{question}', [QuestionController::class, 'update']);
+                Route::delete('/{question}', [QuestionController::class, "destroy"]);
             });
+
 
             Route::prefix('users')->group(function () {
                 Route::get("/", [UserController::class, "index"]);
