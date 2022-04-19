@@ -27,6 +27,7 @@ use Illuminate\Support\Facades\Route;
 Route::prefix('v1')->group(function () {
     Route::prefix('topics')->group(function () {
         Route::get('/', [TopicController::class, 'index']);
+        Route::get('/{topic}', [TopicController::class, 'show']);
     });
 });
 
@@ -50,7 +51,7 @@ Route::prefix('v3')->group(
             });
 
             Route::prefix('nlp')->group(function () {
-                Route::get('/', [NlpController::class, 'index']);
+                Route::post('/', [NlpController::class, 'index']);
             });
 
             Route::prefix('topics')->group(function () {
