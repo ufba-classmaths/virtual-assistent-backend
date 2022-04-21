@@ -12,7 +12,7 @@ class TopicTest extends TestCase
     private $token;
     private $headers;
 
-    private $existent_topic = '25';
+    private $existent_topic = '27';
     private $non_existent_topic = '5';
 
     private $not_found_return = [
