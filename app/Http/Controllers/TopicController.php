@@ -59,9 +59,9 @@ class TopicController extends Controller
      * @param  \App\Models\Topic  $topic
      * @return \Illuminate\Http\Response
      */
-    public function show(Topic $topic)
+    public function show($id)
     {
-        if ($topic) {
+        if ($topic = Topic::find($id)) {
             return Topic::with('questions')->descendantsAndSelf($topic->id)->toTree();
         }
 
