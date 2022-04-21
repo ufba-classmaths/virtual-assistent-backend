@@ -18,7 +18,8 @@ class TopicController extends Controller
      */
     public function index()
     {
-        return  Topic::with('questions')->get()->toTree();
+        return  Topic::with('questions')->whereIsRoot()->get()->toTree();
+        // return  Topic::with('questions')->get()->toTree();
     }
 
 
