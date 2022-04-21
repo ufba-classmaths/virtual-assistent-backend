@@ -62,8 +62,7 @@ class CsvController extends Controller
 
     public function readLocally()
     {
-        return $path = Storage::path('bot_question.csv');
-        echo $path;
+        $path = Storage::path('bot_question.csv');
         $data = array_map('str_getcsv', file($path));
         $csv_data = array_slice($data, 0, count($data));
         unset($csv_data[0]);
