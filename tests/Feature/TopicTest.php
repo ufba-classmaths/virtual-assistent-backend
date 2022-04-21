@@ -12,7 +12,7 @@ class TopicTest extends TestCase
     private $token;
     private $headers;
 
-    private $existent_topic = '19';
+    private $existent_topic = '25';
     private $non_existent_topic = '5';
 
     private $not_found_return = [
@@ -21,7 +21,7 @@ class TopicTest extends TestCase
         "data" => null
     ];
     private $json_structure_return = [
-        '*' => [
+        [
             "id",
             "name",
             "questions" => [
