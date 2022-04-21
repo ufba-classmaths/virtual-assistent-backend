@@ -12,29 +12,31 @@ class TopicTest extends TestCase
     private $token;
     private $headers;
 
-    private $existent_topic = [
-        'id' => '25',
-        'return' => [[
-            "id" => 25,
-            "name" => "institucional",
+    private $existent_topic = '19';
+    private $non_existent_topic = '5';
+
+    private $not_found_return = [
+        "status" => "Error",
+        "message" => "Topic not found",
+        "data" => null
+    ];
+    private $json_structure_return = [
+        '*' => [
+            "id",
+            "name",
             "questions" => [
-                [
-                    "id" => 8,
-                    "topic_id" => 25,
-                    "description" => "Site do Instituto de Computação da UFBA",
-                    "answare" => null
+                '*' => [
+                    "id",
+                    "topic_id",
+                    "description",
+                    "answare"
                 ]
             ],
-            "children" => []
-        ]]
-    ];
+            "children" => [
+                '*' => [
 
-    private $non_existent_topic = [
-        'id' => '5',
-        'return' => [
-            "status" => "Error",
-            "message" => "Topic not found",
-            "data" => null
+                ]
+            ]
         ]
     ];
 
@@ -59,11 +61,11 @@ class TopicTest extends TestCase
         //arg
 
         //act
-        $response = $this->get('/api/v1/topics/' . $this->existent_topic['id']);
+        $response = $this->get('/api/v1/topics/' . $this->existent_topic);
 
         //assert
         $response->assertOk();
-        $response->assertExactJson($this->existent_topic['return']);
+        $response->assertJsonStructure($this->json_structure_return);
     }
 
     public function test_v1_show_topics_not_found()
@@ -71,11 +73,11 @@ class TopicTest extends TestCase
         //arg
 
         //act
-        $response = $this->get('/api/v1/topics/' . $this->non_existent_topic['id']);
+        $response = $this->get('/api/v1/topics/' . $this->non_existent_topic);
 
         //assert
         $response->assertNotFound();
-        $response->assertExactJson($this->non_existent_topic['return']);
+        $response->assertExactJson($this->not_found_return);
     }
 
     public function test_v3_show_topics_returned()
@@ -85,11 +87,11 @@ class TopicTest extends TestCase
 
         //act
         $response = $this->withHeaders($this->headers)
-            ->get('/api/v3/topics/' . $this->existent_topic['id']);
+            ->get('/api/v3/topics/' . $this->existent_topic);
 
         //assert
         $response->assertOk();
-        $response->assertExactJson($this->existent_topic['return']);
+        $response->assertJsonStructure($this->json_structure_return);
     }
 
     public function test_v3_show_topics_not_found()
@@ -99,10 +101,10 @@ class TopicTest extends TestCase
 
         //act
         $response = $this->withHeaders($this->headers)
-            ->get('/api/v3/topics/' . $this->non_existent_topic['id']);
+            ->get('/api/v3/topics/' . $this->non_existent_topic);
 
         //assert
         $response->assertNotFound();
-        $response->assertExactJson($this->non_existent_topic['return']);
+        $response->assertExactJson($this->not_found_return);
     }
 }
