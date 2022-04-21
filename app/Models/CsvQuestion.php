@@ -93,4 +93,29 @@ class CsvQuestion
 
         return $this;
     }
+
+    public static function toUtf8($csv_data): array
+    {
+        $utfEncoded = array();
+
+        foreach ($csv_data as $data) {
+            for ($i = 0; $i < count($data); $i++) {
+                $data[$i] = utf8_encode($data[$i]);
+            }
+            array_push($utfEncoded, $data);
+        }
+
+        return $utfEncoded;
+    }
+    public static function toCsvQuestion($csv_data): array
+    {
+        $csvDescriptions = array();
+
+        foreach ($csv_data as $data) {
+            $newCsvQuestion = new CsvQuestion($data);
+            array_push($csvDescriptions, $newCsvQuestion->build());
+        }
+
+        return $csvDescriptions;
+    }
 }

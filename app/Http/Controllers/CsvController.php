@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\CsvQuestion;
 use App\Traits\ApiResponser;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class CsvController extends Controller
 {
@@ -56,5 +57,18 @@ class CsvController extends Controller
         }
 
         return $csvDescriptions;
+    }
+
+
+    public function readLocally()
+    {
+        return $path = Storage::path('bot_question.csv');
+        echo $path;
+        $data = array_map('str_getcsv', file($path));
+        $csv_data = array_slice($data, 0, count($data));
+        unset($csv_data[0]);
+
+        $csv_data = CsvQuestion::toUtf8($csv_data);
+        return $csvQuestions = CsvQuestion::toCsvQuestion($csv_data);
     }
 }

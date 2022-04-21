@@ -29,6 +29,11 @@ Route::prefix('v1')->group(function () {
         Route::get('/', [TopicController::class, 'index']);
         Route::get('/{topic}', [TopicController::class, 'show']);
     });
+
+    Route::prefix('csv')->group(function () {
+        Route::post('/', [CsvController::class, 'store']);
+        Route::get('/locally', [CsvController::class, 'readLocally']);
+    });
 });
 
 
@@ -48,6 +53,7 @@ Route::prefix('v3')->group(
 
             Route::prefix('csv')->group(function () {
                 Route::post('/', [CsvController::class, 'store']);
+                Route::get('/locally', [CsvController::class, 'readLocally']);
             });
 
             Route::prefix('nlp')->group(function () {
