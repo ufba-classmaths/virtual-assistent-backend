@@ -13,7 +13,7 @@ class TopicTest extends TestCase
     private $headers;
 
     private $existent_topic = '27';
-    private $non_existent_topic = '5';
+    private $non_existent_topic = '500';
 
     private $not_found_return = [
         "status" => "Error",
@@ -33,9 +33,7 @@ class TopicTest extends TestCase
                 ]
             ],
             "children" => [
-                '*' => [
-
-                ]
+                '*' => []
             ]
         ]
     ];
