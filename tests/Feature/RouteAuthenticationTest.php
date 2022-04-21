@@ -56,12 +56,15 @@ class RouterAuthenticationTest extends TestCase
      *
      * @return void
      */
-    public function tes_authentication_acess_with_login_method()
+    public function test_authentication_acess_with_login_method()
     {
         //Arrange
-        $this->init();
+        $this->data = [
+            'email' => 'admin@ufba.br',
+            'password' => 'admin1',
+        ];
         //Act
-        $response = $this->post('/api/v1/auth/login', $this->data);
+        $response = $this->post('/api/v2/auth/login', $this->data);
         $responseJson = $response->json();
         //Assert
         // dd($responseJson);
