@@ -13,7 +13,7 @@ class CsvTest extends TestCase
      *
      * @return void
      */
-    public function test_example()
+    public function tes_example()
     {
         $response = $this->get('/');
 

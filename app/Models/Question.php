@@ -30,8 +30,6 @@ class Question extends Model
 
     public function build(): array
     {
-
-
         return [
             "id" => $this->id,
             "description" => $this->description,

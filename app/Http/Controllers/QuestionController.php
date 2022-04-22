@@ -50,14 +50,14 @@ class QuestionController extends Controller
     public function store(QuestionRequest $questionRequest)
     {
         try {
-            Question::create([
+            $question = Question::create([
                 "description" => $questionRequest["description"],
-                "answare" => $questionRequest["answare"],
+                "answer" => $questionRequest["answer"],
                 "topic_id" => $questionRequest["topic_id"]
             ]);
-            return $this->success('Registro criado com sucesso.');
+            return $this->success('Registro criado com sucesso.', $question, 201);
         } catch (Throwable $e) {
-            return $this->error('Erro: ' + $e, 500);
+            return $this->error($e->getMessage(), 500);
         }
     }
 
