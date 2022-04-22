@@ -27,7 +27,7 @@ class QuestionRequest extends FormRequest
     {
         return [
             'description' => 'required|string|max:300',
-            'answare' => 'required|string|max:150',
+            'answer' => 'required|string|max:150',
             'topic_id' => 'required|int'
         ];
     }

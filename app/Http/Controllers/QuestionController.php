@@ -52,7 +52,7 @@ class QuestionController extends Controller
         try {
             Question::create([
                 "description" => $questionRequest["description"],
-                "answare" => $questionRequest["answare"],
+                "answer" => $questionRequest["answer"],
                 "topic_id" => $questionRequest["topic_id"]
             ]);
             return $this->success('Registro criado com sucesso.');
@@ -73,7 +73,7 @@ class QuestionController extends Controller
             try {
                 $question->description = $questionRequest->input('description');
 
-                $question->answare = $questionRequest->input('answare');
+                $question->answer = $questionRequest->input('answer');
 
                 $question->topic_id = $questionRequest->input('topic_id');
 
