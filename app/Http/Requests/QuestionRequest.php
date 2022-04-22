@@ -26,8 +26,8 @@ class QuestionRequest extends FormRequest
     public function rules()
     {
         return [
-            'description' => 'required|string|max:300',
-            'answer' => 'required|string|max:150',
+            'description' => 'required|string',
+            'answer' => 'required|string',
             'topic_id' => 'required|int'
         ];
     }

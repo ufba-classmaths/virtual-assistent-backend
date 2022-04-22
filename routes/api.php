@@ -34,6 +34,11 @@ Route::prefix('v1')->group(function () {
         Route::post('/', [NlpController::class, 'index']);
     });
 
+    Route::prefix('questions')->group(function () {
+        Route::get('/', [QuestionController::class, 'index']);
+        Route::get('/{question}', [QuestionController::class, 'show']);
+    });
+
     Route::prefix('csv')->group(function () {
         Route::post('/', [CsvController::class, 'store']);
         Route::get('/locally', [CsvController::class, 'readLocally']);
