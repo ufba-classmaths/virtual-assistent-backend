@@ -21,5 +21,5 @@ return [
     | Path to the json file containing the authentication credentials.
     |--------------------------------------------------------------------------
     */
-    'key_file_path' => base_path('nlpkey.json'),
+    'key_file_path' => base_path('w.json'),
 ];
