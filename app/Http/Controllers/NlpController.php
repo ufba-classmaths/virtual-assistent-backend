@@ -31,7 +31,7 @@ class NlpController extends Controller
     public function index(NlpRequest $request)
     {
 
-        $entities = $this->naturalLanguage->entities($request->input('text'));
+        return $entities = $this->naturalLanguage->entities($request->input('text'));
 
         $entitiesName = $this->costumizeEntities($entities);
 
