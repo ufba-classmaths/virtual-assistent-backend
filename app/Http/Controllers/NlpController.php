@@ -31,7 +31,7 @@ class NlpController extends Controller
     public function index(NlpRequest $request)
     {
 
-        return $entities = $this->naturalLanguage->entities($request->input('text'));
+        $entities = $this->naturalLanguage->entities($request->input('text'));
 
         $entitiesName = $this->costumizeEntities($entities);
 
@@ -40,7 +40,7 @@ class NlpController extends Controller
             return $answers;
         }
         $questions = $this->getByAnswers($entitiesName, 'description');
-        if (isset($answers)) {
+        if (isset($questions)) {
             return $questions;
         }
 
