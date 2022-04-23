@@ -50,8 +50,14 @@ class QuestionTest extends TestCase
         "description" => "Criação do Instituto de Computação",
         "answer" => "O Instituto de Computação (IC) da UFBA foi criado em 18 de Junho de 2021",
         "parents" => [
-            "Institucional",
-            "Sobre o IC"
+            [
+                "id" => 1,
+                "name" => "Institucional"
+            ], [
+                "id" => 2,
+                "name" => "Sobre o IC"
+            ],
+
         ]
     ];
     /**
