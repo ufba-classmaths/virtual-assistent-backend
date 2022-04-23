@@ -73,7 +73,7 @@ class QuestionController extends Controller
             try {
                 $question->description = $questionRequest->input('description');
 
-                $question->answare = $questionRequest->input('answare');
+                $question->answer = $questionRequest->input('answer');
 
                 $question->topic_id = $questionRequest->input('topic_id');
 

@@ -25,7 +25,7 @@ class Question extends Model
 
     public function parents()
     {
-        return Topic::ancestorsAndSelf($this->topic_id)->pluck('name');
+        return Topic::ancestorsAndSelf($this->topic_id);
     }
 
     public function build(): array
