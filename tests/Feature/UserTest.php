@@ -49,11 +49,12 @@ class UserTest extends TestCase
         //assert
         //$response->assertOk();
         $response->assertJsonStructure($this->json_structure_return);
-        $json = $response->json();
-        echo json_encode($json);
+        #$json = $response->json();
+        #echo json_encode($json);
     }
 
     public function test_store_user(){
+        $this->init();
         $new_user = [
             [
                 "name" => "TestNome",
