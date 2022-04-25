@@ -89,11 +89,11 @@ class UserTest extends TestCase
 
     }
 
-    public function test_show_user(){
+    public function test_show_an_especific_user(){
         $this->init();
-        $response = $this->get('/api/v3/users/{user}' . $this->userRequested['id']);
+        $response = $this->get('/api/v3/users/' . $this->userRequested['id']);
         $responseJson = $response->json();
-        $this->assertEquals($responseJson['data']['email'], $userRequested['email']);
+        $this->assertEquals($responseJson['email'], "admin@ufba.br");
 
     }
 
