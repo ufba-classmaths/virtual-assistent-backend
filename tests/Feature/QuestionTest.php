@@ -98,6 +98,17 @@ class QuestionTest extends TestCase
         $this->assertEquals($responseJson, $this->questionReturned);
     }
 
+    public function test_get_an_especific_question_error()
+    {
+        //arg
+        //act
+        $response = $this->get('/api/v1/questions/' . $this->questionRequested['id']);
+        $responseJson = $response->json();
+        //assert
+        $response->assertOk();
+
+        $this->assertEquals($responseJson['data']['description'], "null");
+    }
 
     public function test_insert_a_new_question()
     {
