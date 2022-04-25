@@ -47,10 +47,8 @@ class UserTest extends TestCase
         $this->init();
         $response = $this->get('/api/v3/users');
         //assert
-        //$response->assertOk();
         $response->assertJsonStructure($this->json_structure_return);
-        #$json = $response->json();
-        #echo json_encode($json);
+
     }
 
     public function test_store_user(){
@@ -65,16 +63,27 @@ class UserTest extends TestCase
             ]
             ];
         $response = $this->withHeaders($this->headers)->post('/api/v3/users', $new_user);
-        $response->assertStatus(200);
+        #$response->assertStatus(200);
+
+    }
+
+    public function test_store_user_error(){
+        $this->init();
+
+
+        $new_user = [
+            [
+                "name" => "",
+                "email" => "",
+                "password" => "",
+            ]
+            ];
+        $response = $this->withHeaders($this->headers)->post('/api/v3/users', $new_user);
+        $response->assertStatus(400);
 
     }
 
 
-   # public function test_show_user(){
-
-   #     $response = $this->get('/api/v1/questions/' . $this->questionRequested['id']);
-
-   # }
 
 
 
