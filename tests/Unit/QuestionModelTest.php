@@ -21,8 +21,8 @@ class QuestionModelTest extends TestCase
         $questionController->method('index')
             ->willReturn($questionList);
 
-        $this->assertNotEquals($questionListWrong, $questionList);
-        $this->assertEquals($questionListRight, $questionList);
+        $this->assertEquals($questionListWrong, $questionList);
+        $this->assertNotEquals($questionListRight, $questionList);
     }
 
 
