@@ -41,6 +41,11 @@ class UserTest extends TestCase
         ]
     ];
 
+    private $userRequested = [
+        "id" => 1,
+        "email" => "admin@ufba.br",
+    ];
+
 
     public function test_get_all_users()
     {
@@ -84,7 +89,13 @@ class UserTest extends TestCase
 
     }
 
+    public function test_show_user(){
+        $this->init();
+        $response = $this->get('/api/v3/users' . $this->userRequested['id']);
+        $responseJson = $response->json();
+        $this->assertEquals($responseJson['data']['email'], $userRequested['email']);
 
+    }
 
 
 
