@@ -64,7 +64,7 @@ class UserTest extends TestCase
             ];
         $response = $this->withHeaders($this->headers)->post('/api/v3/users', $new_user);
         $responseJson = $response->json();
-        $response->assertStatus(200);
+        $response->assertStatus(201);
 
     }
 
