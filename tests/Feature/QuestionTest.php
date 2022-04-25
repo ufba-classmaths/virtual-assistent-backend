@@ -107,7 +107,7 @@ class QuestionTest extends TestCase
         //assert
         $response->assertOk();
 
-        $this->assertEquals($responseJson['data']['description'], "null");
+        $this->assertNotEquals($responseJson['description'], "null");
     }
 
     public function test_insert_a_new_question()
