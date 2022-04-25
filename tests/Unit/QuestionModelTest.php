@@ -9,11 +9,11 @@ class QuestionModelTest extends TestCase
 {
     /**
      * A basic unit test example.
-     * @dataProvider questionProvider
+     * @dataprovider questionProvider
      * @param $questionList, $questionListWrong, $questionListRight
      * @return void
      */
-    public function test_index($questionList, $questionListWrong, $questionListRight)
+    public function test_index($questionList)
     {
 
         $questionController = $this->createMock(QuestionController::class);
