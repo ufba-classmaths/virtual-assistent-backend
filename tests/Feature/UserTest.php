@@ -93,7 +93,7 @@ class UserTest extends TestCase
         $this->init();
         $response = $this->get('/api/v3/users/' . $this->userRequested['id']);
         $responseJson = $response->json();
-        $this->assertEquals($responseJson['data']['email'], $userRequested['email']);
+        $this->assertEquals($responseJson['email'], $userRequested['email']);
 
     }
 
