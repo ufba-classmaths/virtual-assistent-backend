@@ -29,7 +29,7 @@ class TopicTest extends TestCase
                     "id",
                     "topic_id",
                     "description",
-                    "answare"
+                    "answer"
                 ]
             ],
             "children" => [
