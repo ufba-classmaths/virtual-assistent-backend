@@ -22,7 +22,7 @@ class QuestionModelTest extends TestCase
             ->willReturn($questionList);
 
         $this->assertEquals($questionListWrong, $questionList);
-        $this->assertNotEquals($questionListRight, $questionList);
+
     }
 
 
