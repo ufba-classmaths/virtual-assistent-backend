@@ -56,15 +56,15 @@ class UserTest extends TestCase
 
 
         $new_user = [
-            [
+
                 "name" => "TestNome",
                 "email" => "123@ufba.br",
                 "password" => "12345",
-            ]
+
             ];
         $response = $this->withHeaders($this->headers)->post('/api/v3/users', $new_user);
         $responseJson = $response->json();
-        $response->assertStatus(400);
+        $response->assertStatus(200);
 
     }
 
