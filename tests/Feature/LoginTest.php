@@ -31,6 +31,6 @@ class LoginTest extends TestCase
 
         $response->assertStatus(200);
         $json = $response->json();
-        print_r($json);
+
     }
 }
