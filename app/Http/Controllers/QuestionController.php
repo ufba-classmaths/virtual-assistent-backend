@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\QuestionRequest;
+use App\Http\Requests\StoreQuestionRequest;
+use App\Http\Requests\UpdateQuestionRequest;
 use App\Traits\ApiResponser;
 use App\Models\Question;
+use Illuminate\Http\Request;
 use Throwable;
 
 class QuestionController extends Controller
@@ -44,18 +46,18 @@ class QuestionController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\QuestionRequest  $questionRequest
+     * @param  \Illuminate\Http\StoreQuestionRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(QuestionRequest $questionRequest)
+    public function store(StoreQuestionRequest $request)
     {
         try {
             $question = Question::create([
-                "description" => $questionRequest["description"],
-                "answer" => $questionRequest["answer"],
-                "topic_id" => $questionRequest["topic_id"]
+                "description" => $request["description"],
+                "answer" => $request["answer"],
+                "topic_id" => $request["topic_id"]
             ]);
-            return $this->success('Registro criado com sucesso.', $question, 201);
+            return $this->success('New question registred', $question, 201);
         } catch (Throwable $e) {
             return $this->error($e->getMessage(), 500);
         }
@@ -64,26 +66,26 @@ class QuestionController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\QuestionRequest  $questionRequest
+     * @param  \Illuminate\Http\StoreQuestionRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function update(QuestionRequest $questionRequest, Question $question)
+    public function update(UpdateQuestionRequest $request, Question $question)
     {
         if ($question) {
             try {
-                $question->description = $questionRequest->input('description');
+                $question->description = $request->input('description');
 
-                $question->answer = $questionRequest->input('answer');
+                $question->answer = $request->input('answer');
 
-                $question->topic_id = $questionRequest->input('topic_id');
 
                 $question->update();
-                return $this->success('Registro alterado com sucesso.');
+                return $this->success('Question updated.', $this->show($question));
             } catch (Throwable $e) {
                 return $this->error('Erro: ' + $e, 500);
             }
-        } else
-            return $this->error('Erro: Registro não encontrado.', 404);
+        } else {
+            return $this->error('Question not found.', 404);
+        }
     }
 
 
@@ -98,12 +100,12 @@ class QuestionController extends Controller
         if ($question) {
             try {
                 $question->delete();
-                return $this->success('Registro deletado com sucesso.');
+                return $this->success('Question destroyed');
             } catch (Throwable $e) {
                 return $this->error('Erro: ' + $e, 500);
             }
         } else
-            return $this->error('Erro: Registro não encontrado.', 404);
+            return $this->error('Question not found.', 404);
     }
 }
 

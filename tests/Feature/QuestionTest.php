@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\Models\Question;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
@@ -125,5 +126,56 @@ class QuestionTest extends TestCase
         //assert
         $response->assertStatus(201);
         $this->assertEquals($responseJson['data']['description'], $newQuestion['description']);
+    }
+
+
+    public function test_update_a_question()
+    {
+        //arg
+        $this->init();
+
+        //act
+        $response = $this->withHeaders($this->headers)->patch('/api/v3/questions/' . $this->questionRequested['id'], $this->questionReturned);
+        $responseJson = $response->json();
+        //assert
+        $response->assertStatus(200);
+        $this->assertEquals($responseJson['data'], $this->questionReturned);
+    }
+
+    public function test_fail_to_update_a_question_passing_invalid_data()
+    {
+        //arg
+        $this->init();
+
+        //act
+        $response = $this->withHeaders($this->headers)->patch('/api/v3/questions/' . $this->questionRequested['id'], []);
+        $responseJson = $response->json();
+        //assert
+        $response->assertStatus(400);
+    }
+
+    public function test_fail_to_update_a_question_passing_question_model_not_exists()
+    {
+        //arg
+        $this->init();
+        $id = 49087;
+        //act
+        $response = $this->withHeaders($this->headers)->patch('/api/v3/questions/' . $id, []);
+        $responseJson = $response->json();
+        //assert
+        $response->assertStatus(404);
+    }
+
+    public function test_destroy_a_question()
+    {
+        //arg
+        $this->init();
+        $question = Question::latest()->first();
+        //act
+        $response = $this->withHeaders($this->headers)->delete('/api/v3/questions/' . $question->id);
+        $responseJson = $response->json();
+        //assert
+        $response->assertStatus(200);
+        $this->assertEquals($responseJson['message'], 'Question destroyed');
     }
 }
