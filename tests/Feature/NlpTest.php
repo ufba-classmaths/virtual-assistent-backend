@@ -49,7 +49,7 @@ class NlpTest extends TestCase
             ->post('/api/v3/nlp', $data);
 
         $responseJson = $response->json();
-        print_r($responseJson);
+        #print_r($responseJson);
         //assert
         $response->assertStatus(200);
     }
