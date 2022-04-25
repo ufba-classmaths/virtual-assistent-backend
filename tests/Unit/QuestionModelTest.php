@@ -9,25 +9,70 @@ class QuestionModelTest extends TestCase
 {
     /**
      * A basic unit test example.
-     * @dataProvider questionProvider
+     * @dataProvider provider
      * @param $questionList, $questionListWrong, $questionListRight
      * @return void
      */
-    public function tes_index($questionList, $questionListWrong, $questionListRight)
+
+
+    public function test_question_list()
     {
+
+        $questionListRight = [
+
+            [
+                "id" => 1,
+                "description" => "Criação do Instituto de Computação",
+                "answer" => "O Instituto de Computação (IC) da UFBA foi criado em 18 de Junho de 2021",
+                "parents" => [
+                    "Institucional",
+                    "Sobre o IC"
+                ]
+            ],
+            [
+                "id" => 2,
+                "description" => "Resolução que criou o instituto de computação",
+                "answer" => "Resolucao 05.2021 do Conselho Universitario da UFBA",
+                "parents" => [
+                    "Institucional",
+                    "Sobre o IC"
+                ]
+            ],
+            ];
+
+            $questionList = [
+
+                [
+                    "id" => 1,
+                    "description" => "chip",
+                    "answer" => "Sobre o chip",
+                    "parents" => [
+                        "Institucional",
+                        "Sobre o IC"
+                    ]
+                ],
+                [
+                    "id" => 2,
+                    "description" => "Resolução que criou o instituto de computação",
+                    "answer" => "Resolucao 05.2021 do Conselho Universitario da UFBA",
+                    "parents" => [
+                        "Institucional",
+                        "Sobre o IC"
+                    ]
+                ]];
 
         $questionController = $this->createMock(QuestionController::class);
 
         $questionController->method('index')
-            ->willReturn($questionList);
+            ->willReturn($questionListRight);
 
-        $this->assertNotEquals($questionListWrong, $questionList);
-        $this->assertEquals($questionListRight, $questionList);
+        $this->assertNotEquals($questionList, $questionListRight);
+
     }
 
 
 
-    public function questionProvider()
+    public function provider()
     {
         return [
             "getAllQuestions" => [

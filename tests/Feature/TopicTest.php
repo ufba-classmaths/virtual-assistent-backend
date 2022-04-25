@@ -29,7 +29,7 @@ class TopicTest extends TestCase
                     "id",
                     "topic_id",
                     "description",
-                    "answare"
+                    "answer"
                 ]
             ],
             "children" => [
@@ -54,6 +54,22 @@ class TopicTest extends TestCase
         ];
     }
 
+    public function test_v1_index_topics_returned()
+    {
+        //arg
+
+        //act
+        $response = $this->get('/api/v1/topics/');
+
+        //assert
+        $response->assertOk();
+        $response->assertJsonStructure($this->json_structure_return);
+
+        for ($i = 0; $i < count($response->json()); $i++){
+            $response->assertJsonCount(0, $i.'.children');
+        }
+    }
+
     public function test_v1_show_topics_returned()
     {
         //arg
@@ -76,6 +92,24 @@ class TopicTest extends TestCase
         //assert
         $response->assertNotFound();
         $response->assertExactJson($this->not_found_return);
+    }
+
+    public function test_v3_index_topics_returned()
+    {
+        //arg
+        $this->init();
+
+        //act
+        $response = $this->withHeaders($this->headers)
+        ->get('/api/v3/topics/');
+
+        //assert
+        $response->assertOk();
+        $response->assertJsonStructure($this->json_structure_return);
+
+        for ($i = 0; $i < count($response->json()); $i++){
+            $response->assertJsonCount(0, $i.'.children');
+        }
     }
 
     public function test_v3_show_topics_returned()

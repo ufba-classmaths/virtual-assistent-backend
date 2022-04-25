@@ -70,7 +70,7 @@ Route::prefix('v3')->group(
             });
 
             Route::prefix('topics')->group(function () {
-                Route::get('/', [TopicController::class, 'index'])->name('getAllTopics');
+                Route::get('/', [TopicController::class, 'index']);
                 Route::get('/{topic}', [TopicController::class, 'show']);
                 Route::post('/', [TopicController::class, 'store']);
                 Route::post('/{parent}', [TopicController::class, 'storeWithParent']);
