@@ -55,6 +55,8 @@ class UserTest extends TestCase
 
     public function test_store_user(){
         $this->init();
+
+
         $new_user = [
             [
                 "name" => "TestNome",
@@ -63,7 +65,16 @@ class UserTest extends TestCase
             ]
             ];
         $response = $this->withHeaders($this->headers)->post('/api/v3/users', $new_user);
+        $response->assertStatus(200);
+
     }
+
+
+   # public function test_show_user(){
+
+   #     $response = $this->get('/api/v1/questions/' . $this->questionRequested['id']);
+
+   # }
 
 
 
