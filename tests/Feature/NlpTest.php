@@ -36,7 +36,7 @@ class NlpTest extends TestCase
      *
      * @return void
      */
-    public function est_consult_anser_by_nlp()
+    public function test_consult_anser_by_nlp()
     {
 
         //arg
