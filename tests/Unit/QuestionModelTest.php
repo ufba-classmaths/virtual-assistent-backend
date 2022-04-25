@@ -13,7 +13,7 @@ class QuestionModelTest extends TestCase
      * @param $questionList, $questionListWrong, $questionListRight
      * @return void
      */
-    public function tes_index($questionList, $questionListWrong, $questionListRight)
+    public function test_index($questionList, $questionListWrong, $questionListRight)
     {
 
         $questionController = $this->createMock(QuestionController::class);
