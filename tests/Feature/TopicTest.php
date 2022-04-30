@@ -25,6 +25,11 @@ class TopicTest extends TestCase
         "message" => "Topic not found",
         "data" => null
     ];
+    private $parent_not_found_return = [
+        "status" => "Error",
+        "message" => "Parent not found",
+        "data" => null
+    ];
     private $json_structure_return = [
         [
             "id",
@@ -235,5 +240,35 @@ class TopicTest extends TestCase
         //assert
         $response->assertOk();
         $response->assertExactJson($this->success_on_deletion_return);
+    }
+
+    // POST /api/v3/topics/{topic}
+    public function test_v3_parent_topic_not_found()
+    {
+        //arg
+        $this->init();
+
+        //act
+        $response = $this->withHeaders($this->headers)
+            ->post('/api/v3/topics/' . $this->non_existent_topic, $this->regular_topic);
+
+        //assert
+        $response->assertNotFound();
+        $response->assertExactJson($this->parent_not_found_return);
+    }
+
+    // DELETE /api/v3/topics/{topic}
+    public function test_v3_try_to_delete_non_existent_topic()
+    {
+        //arg
+        $this->init();
+
+        //act
+        $response = $this->withHeaders($this->headers)
+            ->delete('/api/v3/topics/'. $this->non_existent_topic);
+
+        //assert
+        $response->assertNotFound();
+        $response->assertExactJson($this->not_found_return);
     }
 }
