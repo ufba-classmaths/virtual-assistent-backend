@@ -54,7 +54,8 @@ class TopicTest extends TestCase
         ];
     }
 
-    public function test_v1_index_topics_returned()
+    // /api/v1/topics/
+    public function test_v1_get_root_topics_returned()
     {
         //arg
 
@@ -70,7 +71,8 @@ class TopicTest extends TestCase
         }
     }
 
-    public function test_v1_show_topics_returned()
+    // /api/v1/topics/{topic}
+    public function test_v1_topic_subtree_returned()
     {
         //arg
 
@@ -82,7 +84,8 @@ class TopicTest extends TestCase
         $response->assertJsonStructure($this->json_structure_return);
     }
 
-    public function test_v1_show_topics_not_found()
+    // /api/v1/topics/{topic}
+    public function test_v1_topic_not_found()
     {
         //arg
 
@@ -94,7 +97,8 @@ class TopicTest extends TestCase
         $response->assertExactJson($this->not_found_return);
     }
 
-    public function test_v3_index_topics_returned()
+    // /api/v3/topics/
+    public function test_v3_full_topic_tree_returned()
     {
         //arg
         $this->init();
@@ -106,13 +110,10 @@ class TopicTest extends TestCase
         //assert
         $response->assertOk();
         $response->assertJsonStructure($this->json_structure_return);
-
-        for ($i = 0; $i < count($response->json()); $i++){
-            $response->assertJsonCount(0, $i.'.children');
-        }
     }
 
-    public function test_v3_show_topics_returned()
+    // /api/v3/topics/{topic}
+    public function test_v3_topic_subtree_returned()
     {
         //arg
         $this->init();
@@ -126,7 +127,8 @@ class TopicTest extends TestCase
         $response->assertJsonStructure($this->json_structure_return);
     }
 
-    public function test_v3_show_topics_not_found()
+    // /api/v3/topics/{topic}
+    public function test_v3_topic_not_found()
     {
         //arg
         $this->init();
