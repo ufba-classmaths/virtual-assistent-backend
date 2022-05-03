@@ -32,7 +32,7 @@ class RecoverCode2 extends Mailable
         } while (!$user->update());
 
         $this->token = $user->token;
-        $this->user = User::buildSimple($user);
+        $this->user = User::build($user);
     }
 
     /**
