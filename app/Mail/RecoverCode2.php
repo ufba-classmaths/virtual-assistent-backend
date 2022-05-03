@@ -16,7 +16,6 @@ class RecoverCode2 extends Mailable
 
 
     private $user;
-    private $token;
 
     /**
      * Create a new message instance.
@@ -26,12 +25,14 @@ class RecoverCode2 extends Mailable
     public function __construct(User $user)
     {
 
+
         do {
             $user->token = Str::random(40);
             $user->token_time = now();
         } while (!$user->update());
 
-        $this->token = $user->token;
+
+        $this->user = $user;
     }
 
     /**
@@ -49,8 +50,8 @@ class RecoverCode2 extends Mailable
         return $this->view(
             'mail.emailRescueCode',
             [
-                'userName' => $$this->user->name,
-                'token' => $this->token
+                'userName' => $this->user->name,
+                'token' => $this->user->token
             ]
         );
     }
