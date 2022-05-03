@@ -62,9 +62,9 @@ class AuthController extends Controller
         $user = User::getUserDecripted($email);
 
         if ($user) {
-            return response(new RecoverCode2($user));
+            response(new RecoverCode2($user));
             Mail::send(new RecoverCode2($user));
-            return $email = explode('@', $user['email']);
+            $email = explode('@', $user['email']);
             return $this->success(null, 'Email enviado para:  ' . substr($email[0], 0, 3) . '*****@' . substr($email[1], 0, 3) . '*****');
         }
 
