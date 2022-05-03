@@ -4,7 +4,7 @@
 /storage/*framework
 /storage/*logs
 /vendor
-.env
+.env2
 .env.backup
 .phpunit.result.cache
 docker-compose.override.yml
@@ -15,4 +15,4 @@ yarn-error.log
 /.idea
 /.vscode
 /laradock
-#nlpkey.json
+nlpkey.json
