@@ -18,10 +18,13 @@ class TopicController extends Controller
      */
     public function index()
     {
-        return  Topic::with('questions')->whereIsRoot()->get()->toTree();
-        // return  Topic::with('questions')->get()->toTree();
+        return  Topic::with('questions')->get()->toTree();
     }
 
+    public function getRoots()
+    {
+        return  Topic::with('questions')->whereIsRoot()->get()->toTree();
+    }
 
     /**
      * Store a newly created resource in storage.
@@ -41,10 +44,10 @@ class TopicController extends Controller
      * @param  \App\Http\Requests\StoreTopicRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function storeWithParent(StoreTopicRequest $request, Topic $parent)
+    public function storeWithParent(StoreTopicRequest $request, $id)
     {
 
-        if ($parent) {
+        if ($parent = Topic::find($id)) {
             $newTopic = Topic::create($request->all());
 
             $parent->appendNode($newTopic);
@@ -94,9 +97,9 @@ class TopicController extends Controller
      * @param  \App\Models\Topic  $topic
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Topic $topic)
+    public function destroy($id)
     {
-        if ($topic) {
+        if ($topic = Topic::find($id)) {
             $topic->delete();
             return $this->success('Topic deleted', 200);
         }
