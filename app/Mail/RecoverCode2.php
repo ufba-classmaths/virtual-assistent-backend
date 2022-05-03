@@ -32,7 +32,6 @@ class RecoverCode2 extends Mailable
         } while (!$user->update());
 
         $this->token = $user->token;
-        $this->user = User::build($user);
     }
 
     /**
@@ -47,9 +46,9 @@ class RecoverCode2 extends Mailable
         $this->subject('Código de Recuperação de Acesso!');
         $userName = '';
         if (array_key_exists('name', $this->user)) {
-            $userName = $this->user['name'];
+            $userName = $this->user->name;
 
-            $this->to($email, $this->user['name']);
+            $this->to($email, $this->user->name);
         } else {
             $this->to($email);
         }
