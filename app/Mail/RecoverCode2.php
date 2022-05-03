@@ -25,7 +25,7 @@ class RecoverCode2 extends Mailable
      */
     public function __construct(User $user)
     {
-        dd($user);
+
         do {
             $user->token = Str::random(40);
             $user->token_time = now();
