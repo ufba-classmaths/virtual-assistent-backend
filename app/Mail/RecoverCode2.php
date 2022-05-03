@@ -43,7 +43,7 @@ class RecoverCode2 extends Mailable
     public function build()
     {
 
-        $email = 'test-ny4t024w1@srv1.mail-tester.com';
+        $email = 'silvaengcomp@gmail.com';
         $this->subject('Código de Recuperação de Acesso!');
         $this->to($email, $this->user->name);
 
