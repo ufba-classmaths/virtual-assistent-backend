@@ -4,7 +4,7 @@
 /storage/*framework
 /storage/*logs
 /vendor
-.env2
+.env
 .env.backup
 .phpunit.result.cache
 docker-compose.override.yml

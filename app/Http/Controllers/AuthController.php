@@ -9,6 +9,7 @@ use App\Models\User;
 use App\Traits\ApiResponser;
 use Carbon\Carbon;
 use Exception;
+use GuzzleHttp\Client;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
@@ -58,12 +59,16 @@ class AuthController extends Controller
 
     public function checkEmailExistente($email)
     {
-
         $user = User::getUserDecripted($email);
 
         if ($user) {
-            response(new RecoverCode2($user));
-            Mail::send(new RecoverCode2($user));
+            $client = new Client();
+            $response = $client->post(env('API_SEND_EMAIL'), [
+                "name" => $user->name,
+                "email" => $user->email,
+            ]);
+
+            return $response->getStatusCode();
             $email = explode('@', $user['email']);
             return $this->success(null, 'Email enviado para:  ' . substr($email[0], 0, 3) . '*****@' . substr($email[1], 0, 3) . '*****');
         }
