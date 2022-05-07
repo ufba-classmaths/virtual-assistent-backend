@@ -47,9 +47,9 @@ Route::prefix('v1')->group(function () {
 
 
 Route::prefix('v2')->group(function () {
-    Route::get('auth/codeRescue/{code}/{is_invitation}', [AuthController::class, 'codeValidation']);
+    Route::get('auth/codeRescue/{code}', [AuthController::class, 'codeValidation']);
     Route::get('auth/recoverAccess/{email}', [AuthController::class, 'checkEmailExistente']);
-    Route::patch('/auth/updatePassword/user/{user}/password/{password}', [AuthController::class, 'updatePassword']);
+    Route::patch('/auth/updatePassword/user/{user}', [AuthController::class, 'updatePassword']);
     Route::post('/auth/login', [AuthController::class, 'login']);
 });
 

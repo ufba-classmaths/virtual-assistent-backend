@@ -3,16 +3,18 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\UserLoginRequest;
-use App\Mail\RecoverCode2;
 use App\Mail\SendInvitation;
 use App\Models\User;
 use App\Traits\ApiResponser;
 use Carbon\Carbon;
 use Exception;
 use GuzzleHttp\Client;
+use GuzzleHttp\Exception\GuzzleException;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Mail;
 use Throwable;
 
@@ -62,15 +64,21 @@ class AuthController extends Controller
         $user = User::getUserDecripted($email);
 
         if ($user) {
-            $client = new Client();
-            $response = $client->post(env('API_SEND_EMAIL'), [
-                "name" => $user->name,
-                "email" => $user->email,
-            ]);
+            try {
+                $response = Http::post(env('API_SEND_EMAIL'), [
+                    'email' => 'silvaengcomp@gmail.com',
+                    'name' => 'test',
+                    'name' => 'test',
+                ])->json();
 
-            return $response->getStatusCode();
-            $email = explode('@', $user['email']);
-            return $this->success(null, 'Email enviado para:  ' . substr($email[0], 0, 3) . '*****@' . substr($email[1], 0, 3) . '*****');
+                $user->token = $response['token'];
+                $user->token_time = now();
+                $user->update();
+                $email = explode('@', $user['email']);
+                return $this->success(null, $response);
+            } catch (GuzzleException $e) {
+                return response($e->getMessage());
+            }
         }
 
         return $this->error('Email não encontrado', 404);
@@ -80,20 +88,17 @@ class AuthController extends Controller
 
 
 
-    public function codeValidation($cod, $is_invitation)
+    public function codeValidation($code)
     {
         try {
-            $user = User::where('token', 'like', substr($cod, 0, 3) . '%' . substr($cod, -3))->first();
+            $user = User::where('token', 'like', substr($code, 0, 3) . '%' . substr($code, -3))->first();
             if ($user) {
-                if ($is_invitation) {
-                    return $this->success(User::buildSimple($user), 'Usuário');
-                }
                 $date1 = Carbon::create($user->token_time);
                 $date2 = Carbon::create(now());
                 if ($date1->diffInHours($date2) <= 24) {
                     $user->token = null;
                     $user->update();
-                    return $this->success('Usuário', User::build($user));
+                    return $this->success('Usuário', $user->build());
                 }
             } else {
                 return $this->error('codigo inválido ou expirado', 404);
@@ -133,11 +138,11 @@ class AuthController extends Controller
     }
 
 
-    public function updatePassword(User $user, $password)
+    public function updatePassword(Request $request, User $user)
     {
 
         if ($user) {
-            $user->password = bcrypt($password);
+            $user->password = bcrypt($request->input('password'));
             $user->update();
         }
 
