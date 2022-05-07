@@ -36,20 +36,20 @@ class NlpController extends Controller
         $entitiesName = $this->costumizeEntities($entities);
 
         $answers = $this->getByAnswers($entitiesName);
-        if (isset($answers)) {
+        if (count($answers) > 0) {
             return $answers;
         }
         $questions = $this->getByAnswers($entitiesName, 'description');
-        if (isset($questions)) {
+        if (count($questions) > 0) {
             return $questions;
         }
 
         $topics = $this->getByTopics($entitiesName);
-        if (isset($topics)) {
+        if (count($topics) > 0) {
             return $topics;
         }
 
-        $this->error('Not found', 404);
+        return $this->error('Not found', 404);
     }
 
     /**
@@ -66,7 +66,7 @@ class NlpController extends Controller
         return array_unique($entitiesName);
     }
 
-    private function getByAnswers($entitiesName, $type = 'answer'): array|null
+    private function getByAnswers($entitiesName, $type = 'answer'): array
     {
         $query  = null;
         $queryentitiesNameAux = $entitiesName;
@@ -99,10 +99,10 @@ class NlpController extends Controller
             }
         }
 
-        return null;
+        return array();
     }
 
-    private function getByTopics($entitiesName): array|null
+    private function getByTopics($entitiesName): array
     {
         $query  = null;
         $queryentitiesNameAux = $entitiesName;
@@ -135,6 +135,6 @@ class NlpController extends Controller
             }
         }
 
-        return null;
+        return array();
     }
 }
