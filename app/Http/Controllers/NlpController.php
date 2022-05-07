@@ -74,9 +74,9 @@ class NlpController extends Controller
             if (count($entitiesName) > 0) {
                 foreach ($entitiesName as $value) {
                     if (!isset($query)) {
-                        $query = Question::where($type, 'LIKE', "%$value%");
+                        $query = Question::where($type, 'iLIKE', '%' . $value . '%');
                     }
-                    $query =  $query->where($type, 'LIKE', "%$value%");
+                    $query =  $query->where($type, 'iLIKE', '%' . $value . '%');
                 }
 
                 $response = $query->get();
@@ -92,7 +92,7 @@ class NlpController extends Controller
 
         if (count($queryentitiesNameAux) > 0) {
             foreach ($entitiesName as $value) {
-                $query =  Question::where($type, 'LIKE', "%$value%");
+                $query =  Question::where($type, 'iLIKE', '%' . $value . '%');
                 if (count($query->toArray()) > 0) {
                     return $query->toArray();
                 }
@@ -110,9 +110,9 @@ class NlpController extends Controller
             if (count($entitiesName) > 0) {
                 foreach ($entitiesName as $value) {
                     if (!isset($query)) {
-                        $query = Topic::where('name', 'LIKE', "%$value%");
+                        $query = Topic::where('name', 'iLIKE', '%' . $value . '%');
                     }
-                    $query =  $query->where('name', 'LIKE', "%$value%");
+                    $query =  $query->where('name', 'iLIKE', '%' . $value . '%');
                 }
 
                 $response = $query->get();
@@ -128,7 +128,7 @@ class NlpController extends Controller
 
         if (count($queryentitiesNameAux) > 0) {
             foreach ($entitiesName as $value) {
-                $query =  Question::where('name', 'LIKE', "%$value%");
+                $query =  Question::where('name', 'iLIKE', '%' . $value . '%');
                 if (count($query->toArray()) > 0) {
                     return $query->toArray();
                 }
