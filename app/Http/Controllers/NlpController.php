@@ -32,9 +32,8 @@ class NlpController extends Controller
     {
 
         // $entities = $this->naturalLanguage->entities($request->input('text'));
-        return  $entities = $this->getEntities($request->input('text'));
+        $entitiesName = $this->getEntities($request->input('text'));
 
-        $entitiesName = $this->costumizeEntities($entities);
 
         $answers = $this->getByAnswers($entitiesName);
         if (count($answers) > 0) {
@@ -53,19 +52,7 @@ class NlpController extends Controller
         return $this->error('Not found', 404);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function costumizeEntities($entities): array
-    {
-        $entitiesName = array();
-        foreach ($entities['entities'] as $entity) {
-            array_push($entitiesName, $entity['name']);
-        }
-        return array_unique($entitiesName);
-    }
+
 
     private function getByAnswers($entitiesName, $type = 'answer'): array
     {
@@ -162,6 +149,6 @@ class NlpController extends Controller
             }
         }
 
-        return $entities;
+        return array_unique($entities);
     }
 }
