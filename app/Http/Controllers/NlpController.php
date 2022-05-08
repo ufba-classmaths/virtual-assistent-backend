@@ -23,7 +23,7 @@ class NlpController extends Controller
         $entitiesName = $this->getEntities($request->input('text'));
 
 
-        return  $answers = $this->getByAnswers($entitiesName);
+        $answers = $this->getByAnswers($entitiesName);
         if (count($answers) > 0) {
             return $answers;
         }
@@ -50,9 +50,9 @@ class NlpController extends Controller
             if (count($entitiesName) > 0) {
                 foreach ($entitiesName as $value) {
                     if (!isset($query)) {
-                        $query = Question::whereRaw("$type LIKE '%" . strtoupper($value) . "%'");
+                        $query = Question::whereRaw("LOWER($type) LIKE '%" . strtolower($value) . "%'");
                     }
-                    $query =  $query->whereRaw("$type LIKE '%" . strtoupper($value) . "%'");
+                    $query =  $query->whereRaw("LOWER($type) LIKE '%" . strtolower($value) . "%'");
                 }
 
                 $response = $query->get();
@@ -68,7 +68,7 @@ class NlpController extends Controller
 
         if (count($queryentitiesNameAux) > 0) {
             foreach ($entitiesName as $value) {
-                $query =  Question::whereRaw("$type LIKE '%" . strtoupper($value) . "%'");
+                $query =  Question::whereRaw("LOWER($type) LIKE '%" . strtolower($value) . "%'");
                 if (count($query->toArray()) > 0) {
                     return $query->toArray();
                 }
@@ -86,9 +86,9 @@ class NlpController extends Controller
             if (count($entitiesName) > 0) {
                 foreach ($entitiesName as $value) {
                     if (!isset($query)) {
-                        $query = Topic::whereRaw("name LIKE '%" . strtoupper($value) . "%'");
+                        $query = Topic::whereRaw("name LIKE '%" . strtolower($value) . "%'");
                     }
-                    $query =  $query->whereRaw("name LIKE '%" . strtoupper($value) . "%'");
+                    $query =  $query->whereRaw("name LIKE '%" . strtolower($value) . "%'");
                 }
 
                 $response = $query->get();
