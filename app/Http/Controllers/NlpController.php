@@ -6,8 +6,6 @@ use App\Http\Requests\NlpRequest;
 use App\Models\Question;
 use App\Models\Topic;
 use App\Traits\ApiResponser;
-use JoggApp\NaturalLanguage\NaturalLanguage;
-use JoggApp\NaturalLanguage\NaturalLanguageClient;
 
 class NlpController extends Controller
 {
@@ -25,7 +23,7 @@ class NlpController extends Controller
         $entitiesName = $this->getEntities($request->input('text'));
 
 
-        $answers = $this->getByAnswers($entitiesName);
+        return $answers = $this->getByAnswers($entitiesName);
         if (count($answers) > 0) {
             return $answers;
         }
