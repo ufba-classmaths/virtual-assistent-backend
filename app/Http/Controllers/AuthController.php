@@ -66,7 +66,7 @@ class AuthController extends Controller
         if ($user) {
             try {
                 $response = Http::accept('application/json')->post(env('API_SEND_EMAIL'), [
-                    'email' => 'silvaengcomp@gmail.com',
+                    'email' => $email,
                     'name' => $user->name,
                 ]);
 
