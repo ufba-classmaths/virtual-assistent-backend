@@ -20,7 +20,7 @@ class NlpController extends Controller
     {
 
 
-        $this->naturalLanguage = new NaturalLanguage(new NaturalLanguageClient(config('naturallanguage')));
+        // $this->naturalLanguage = new NaturalLanguage(new NaturalLanguageClient(config('naturallanguage')));
     }
 
     /**
@@ -31,25 +31,26 @@ class NlpController extends Controller
     public function index(NlpRequest $request)
     {
 
-        $entities = $this->naturalLanguage->entities($request->input('text'));
+        // $entities = $this->naturalLanguage->entities($request->input('text'));
+        return  $entities = $this->getEntities($request->input('text'));
 
         $entitiesName = $this->costumizeEntities($entities);
 
         $answers = $this->getByAnswers($entitiesName);
-        if (isset($answers)) {
+        if (count($answers) > 0) {
             return $answers;
         }
         $questions = $this->getByAnswers($entitiesName, 'description');
-        if (isset($questions)) {
+        if (count($questions) > 0) {
             return $questions;
         }
 
         $topics = $this->getByTopics($entitiesName);
-        if (isset($topics)) {
+        if (count($topics) > 0) {
             return $topics;
         }
 
-        $this->error('Not found', 404);
+        return $this->error('Not found', 404);
     }
 
     /**
@@ -66,7 +67,7 @@ class NlpController extends Controller
         return array_unique($entitiesName);
     }
 
-    private function getByAnswers($entitiesName, $type = 'answer'): array|null
+    private function getByAnswers($entitiesName, $type = 'answer'): array
     {
         $query  = null;
         $queryentitiesNameAux = $entitiesName;
@@ -74,9 +75,9 @@ class NlpController extends Controller
             if (count($entitiesName) > 0) {
                 foreach ($entitiesName as $value) {
                     if (!isset($query)) {
-                        $query = Question::where($type, 'LIKE', "%$value%");
+                        $query = Question::whereRaw("$type LIKE '%" . strtoupper($value) . "%'");
                     }
-                    $query =  $query->where($type, 'LIKE', "%$value%");
+                    $query =  $query->whereRaw("$type LIKE '%" . strtoupper($value) . "%'");
                 }
 
                 $response = $query->get();
@@ -92,17 +93,17 @@ class NlpController extends Controller
 
         if (count($queryentitiesNameAux) > 0) {
             foreach ($entitiesName as $value) {
-                $query =  Question::where($type, 'LIKE', "%$value%");
+                $query =  Question::whereRaw("$type LIKE '%" . strtoupper($value) . "%'");
                 if (count($query->toArray()) > 0) {
                     return $query->toArray();
                 }
             }
         }
 
-        return null;
+        return array();
     }
 
-    private function getByTopics($entitiesName): array|null
+    private function getByTopics($entitiesName): array
     {
         $query  = null;
         $queryentitiesNameAux = $entitiesName;
@@ -110,9 +111,9 @@ class NlpController extends Controller
             if (count($entitiesName) > 0) {
                 foreach ($entitiesName as $value) {
                     if (!isset($query)) {
-                        $query = Topic::where('name', 'LIKE', "%$value%");
+                        $query = Topic::whereRaw("name LIKE '%" . strtoupper($value) . "%'");
                     }
-                    $query =  $query->where('name', 'LIKE', "%$value%");
+                    $query =  $query->whereRaw("name LIKE '%" . strtoupper($value) . "%'");
                 }
 
                 $response = $query->get();
@@ -128,13 +129,39 @@ class NlpController extends Controller
 
         if (count($queryentitiesNameAux) > 0) {
             foreach ($entitiesName as $value) {
-                $query =  Question::where('name', 'LIKE', "%$value%");
+                $query =  Question::where('name', 'LIKE',  $value);
                 if (count($query->toArray()) > 0) {
                     return $query->toArray();
                 }
             }
         }
 
-        return null;
+        return array();
+    }
+
+
+    public function getEntities($text): array
+    {
+        $tokens = explode(' ', $text);
+        $prepositions = [
+            'por', 'a', 'para', 'de', 'em', 'o', 'pelo', 'ao', 'pro', 'do',
+            'no', 'a', 'pela', 'à', 'pra', 'da', 'na', 'os', 'pelos', 'aos', 'pros',
+            'dos', 'nos', 'as', 'pelas', 'às', 'pras', 'das', 'nas', 'um',
+            'numas', 'dum', 'num', 'uma', 'duma', 'numa', 'uns', 'duns', 'nuns',
+            'umas', 'dumas', 'ele', 'dele', 'nele', 'ela', 'dela', 'nela', 'eles',
+            'deles', 'neles', 'elas', 'delas', 'nelas', 'este', 'deste', 'neste', 'isto',
+            'disto', 'nisto', 'esse', 'desse', 'nesse', 'isso', 'disso', 'nisso', 'aquele',
+            'àquele', 'praquele', 'daquele', 'naquele', 'aquilo', 'àquilo', 'praquilo', 'daquilo',
+            'naquilo'
+        ];
+
+        $entities = array();
+        foreach ($tokens as $token) {
+            if (!in_array($token, $prepositions)) {
+                array_push($entities, $token);
+            }
+        }
+
+        return $entities;
     }
 }
