@@ -23,7 +23,7 @@ class NlpController extends Controller
         $entitiesName = $this->getEntities($request->input('text'));
 
 
-        return $answers = $this->getByAnswers($entitiesName);
+        $answers = $this->getByAnswers($entitiesName);
         if (count($answers) > 0) {
             return $answers;
         }
@@ -39,6 +39,7 @@ class NlpController extends Controller
 
         return $this->error('Not found', 404);
     }
+
 
 
     private function getByAnswers($entitiesName, $type = 'answer'): array
