@@ -6,22 +6,11 @@ use App\Http\Requests\NlpRequest;
 use App\Models\Question;
 use App\Models\Topic;
 use App\Traits\ApiResponser;
-use JoggApp\NaturalLanguage\NaturalLanguage;
-use JoggApp\NaturalLanguage\NaturalLanguageClient;
 
 class NlpController extends Controller
 {
 
     use ApiResponser;
-
-    private NaturalLanguage $naturalLanguage;
-
-    public function __construct()
-    {
-
-
-        // $this->naturalLanguage = new NaturalLanguage(new NaturalLanguageClient(config('naturallanguage')));
-    }
 
     /**
      * Display a listing of the resource.
@@ -31,7 +20,6 @@ class NlpController extends Controller
     public function index(NlpRequest $request)
     {
 
-        // $entities = $this->naturalLanguage->entities($request->input('text'));
         $entitiesName = $this->getEntities($request->input('text'));
 
 
