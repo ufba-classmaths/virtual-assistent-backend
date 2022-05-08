@@ -14,15 +14,6 @@ class NlpController extends Controller
 
     use ApiResponser;
 
-    private NaturalLanguage $naturalLanguage;
-
-    public function __construct()
-    {
-
-
-        $this->naturalLanguage = new NaturalLanguage(new NaturalLanguageClient(config('naturallanguage')));
-    }
-
     /**
      * Display a listing of the resource.
      *
@@ -31,9 +22,8 @@ class NlpController extends Controller
     public function index(NlpRequest $request)
     {
 
-        $entities = $this->naturalLanguage->entities($request->input('text'));
+        $entitiesName = $this->getEntities($request->input('text'));
 
-        $entitiesName = $this->costumizeEntities($entities);
 
         $answers = $this->getByAnswers($entitiesName);
         if (count($answers) > 0) {
@@ -52,19 +42,6 @@ class NlpController extends Controller
         return $this->error('Not found', 404);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function costumizeEntities($entities): array
-    {
-        $entitiesName = array();
-        foreach ($entities['entities'] as $entity) {
-            array_push($entitiesName, $entity['name']);
-        }
-        return array_unique($entitiesName);
-    }
 
     private function getByAnswers($entitiesName, $type = 'answer'): array
     {
@@ -136,5 +113,31 @@ class NlpController extends Controller
         }
 
         return array();
+    }
+
+
+    public function getEntities($text): array
+    {
+        $tokens = explode(' ', $text);
+        $prepositions = [
+            'por', 'a', 'para', 'de', 'em', 'o', 'pelo', 'ao', 'pro', 'do',
+            'no', 'a', 'pela', 'à', 'pra', 'da', 'na', 'os', 'pelos', 'aos', 'pros',
+            'dos', 'nos', 'as', 'pelas', 'às', 'pras', 'das', 'nas', 'um',
+            'numas', 'dum', 'num', 'uma', 'duma', 'numa', 'uns', 'duns', 'nuns',
+            'umas', 'dumas', 'ele', 'dele', 'nele', 'ela', 'dela', 'nela', 'eles',
+            'deles', 'neles', 'elas', 'delas', 'nelas', 'este', 'deste', 'neste', 'isto',
+            'disto', 'nisto', 'esse', 'desse', 'nesse', 'isso', 'disso', 'nisso', 'aquele',
+            'àquele', 'praquele', 'daquele', 'naquele', 'aquilo', 'àquilo', 'praquilo', 'daquilo',
+            'naquilo'
+        ];
+
+        $entities = array();
+        foreach ($tokens as $token) {
+            if (!in_array($token, $prepositions)) {
+                array_push($entities, $token);
+            }
+        }
+
+        return array_unique($entities);
     }
 }
