@@ -34,6 +34,7 @@ class UserController extends Controller
     {
         $payload = $request->all();
         $payload["password"] = bcrypt($payload["password"]);
+
         $user = User::create($payload);
         return $user;
     }
