@@ -65,12 +65,12 @@ class AuthController extends Controller
 
         if ($user) {
             try {
-                $response = Http::post(env('API_SEND_EMAIL'), [
+                $response = Http::accept('application/json')->post(env('API_SEND_EMAIL'), [
                     'email' => 'silvaengcomp@gmail.com',
-                    'name' => 'test',
-                    'name' => 'test',
-                ])->json();
+                    'name' => $user->name,
+                ]);
 
+                return $response;
                 $user->token = $response['token'];
                 $user->token_time = now();
                 $user->update();
