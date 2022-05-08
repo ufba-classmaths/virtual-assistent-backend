@@ -20,7 +20,7 @@ class NlpController extends Controller
     public function index(NlpRequest $request)
     {
 
-        $entitiesName = $this->getEntities($request->input('text'));
+        return $entitiesName = $this->getEntities($request->input('text'));
 
 
         $answers = $this->getByAnswers($entitiesName);
