@@ -125,11 +125,17 @@ class MenuController extends Controller
             foreach ($menu->getQuestions() as $question) {
                 $topic = Topic::where('name', $menu->getName())->first();
                 if ($topic) {
-                    Question::create([
+
+                    $question = Question::create([
                         "description" => $question["description"],
                         "answer" => $question["answer"],
                         "topic_id" => $topic->id
                     ]);
+
+                    if ($topic->id == 22) {
+                        print_r($topic);
+                        print_r($question);
+                    }
                 }
             }
         }

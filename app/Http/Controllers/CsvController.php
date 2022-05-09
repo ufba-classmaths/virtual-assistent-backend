@@ -68,6 +68,7 @@ class CsvController extends Controller
         unset($csv_data[0]);
 
         $csv_data = CsvQuestion::toUtf8($csv_data);
-        return $csvQuestions = CsvQuestion::toCsvQuestion($csv_data);
+        $csvQuestions = CsvQuestion::toCsvQuestion($csv_data);
+        MenuController::build($csvQuestions);
     }
 }
