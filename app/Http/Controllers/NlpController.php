@@ -86,9 +86,9 @@ class NlpController extends Controller
             if (count($entitiesName) > 0) {
                 foreach ($entitiesName as $value) {
                     if (!isset($query)) {
-                        $query = Topic::whereRaw("name LIKE '%" . strtolower($value) . "%'");
+                        $query = Topic::whereRaw("LOWER(name) LIKE '%" . strtolower($value) . "%'");
                     }
-                    $query =  $query->whereRaw("name LIKE '%" . strtolower($value) . "%'");
+                    $query =  $query->whereRaw("LOWER(name) LIKE '%" . strtolower($value) . "%'");
                 }
 
                 $response = $query->get();
@@ -104,7 +104,7 @@ class NlpController extends Controller
 
         if (count($queryentitiesNameAux) > 0) {
             foreach ($entitiesName as $value) {
-                $query =  Question::where('name', 'LIKE',  $value);
+                $query =  Question::whereRaw("LOWER(name) LIKE '%" . strtolower($value) . "%'");
                 if (count($query->toArray()) > 0) {
                     return $query->toArray();
                 }
