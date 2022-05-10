@@ -42,12 +42,15 @@ class AuthController extends Controller
                     $password = bcrypt($email);
 
                     $user = User::create([
-                        "email" => encrypt($email),
+                        "email" => $email,
                         "password" => $password
                     ]);
-                    $user->assignRole('basic_user');
 
-                    Mail::send(new SendInvitation($user));
+                    Http::accept('application/json')->post(env('API_SEND_EMAIL'), [
+                        'email' => $email,
+                        'name' => $user->name,
+                        'isInvite' => true
+                    ]);
                     $email = explode('@', $email);
                     return $this->success(null, 'Email enviado para:  ' . substr($email[0], 0, 3) . '*****@' . substr($email[1], 0, 3) . '*****');
                 });
@@ -68,6 +71,7 @@ class AuthController extends Controller
                 $response = Http::accept('application/json')->post(env('API_SEND_EMAIL'), [
                     'email' => $email,
                     'name' => $user->name,
+                    'isInvite' => false
                 ]);
 
                 return $response;
