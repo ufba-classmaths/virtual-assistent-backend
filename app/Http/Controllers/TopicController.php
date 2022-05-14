@@ -77,12 +77,13 @@ class TopicController extends Controller
      */
     public function show($id)
     {
-        // return Topic::find($id)->with('questions')->hasChildren()->get()->toTree();
 
-        if ($this->isValidMenu($id)) {
-            return Topic::with('questions')->descendantsAndSelf($id)->toTree();
+        $topic = Topic::find($id);
+        if ($topic) {
+            if ($this->isValidMenu($id) && $topic->name != "") {
+                return Topic::with('questions')->descendantsAndSelf($id)->toTree();
+            }
         }
-
         return $this->error('Topic not found', 404);
     }
 
