@@ -21,7 +21,7 @@ class TopicController extends Controller
      */
     public function index()
     {
-        return  Topic::whereNotNull("name")->whereIsRoot()->get()->toTree();
+        return  Topic::whereNotNull("name")->get()->toTree();
     }
 
     public function getRoots()
@@ -84,6 +84,7 @@ class TopicController extends Controller
                 return Topic::with('questions')->descendantsAndSelf($id)->toTree();
             }
         }
+
         return $this->error('Topic not found', 404);
     }
 
