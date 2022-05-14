@@ -5,12 +5,15 @@ namespace App\Http\Controllers;
 use App\Models\Topic;
 use App\Http\Requests\StoreTopicRequest;
 use App\Http\Requests\UpdateTopicRequest;
+use App\Models\Menu;
+use App\Models\Question;
 use App\Traits\ApiResponser;
 
 class TopicController extends Controller
 {
 
     use ApiResponser;
+
     /**
      * Display a listing of the resource.
      *
@@ -18,12 +21,20 @@ class TopicController extends Controller
      */
     public function index()
     {
-        return  Topic::with('questions')->get()->toTree();
+        return  Topic::whereNotNull("name")->whereIsRoot()->get()->toTree();
     }
 
     public function getRoots()
     {
-        return  Topic::with('questions')->whereIsRoot()->get()->toTree();
+        $roots =   Topic::where("name", "<>", "")->with('questions')->whereIsRoot()->get()->toTree();
+        $validRoots = array();
+        foreach ($roots as $root) {
+            if ($this->isValidMenu($root->id)) {
+                array_push($validRoots, $root);
+            }
+        }
+
+        return $validRoots;
     }
 
     /**
@@ -47,6 +58,7 @@ class TopicController extends Controller
     public function storeWithParent(StoreTopicRequest $request, $id)
     {
 
+
         if ($parent = Topic::find($id)) {
             $newTopic = Topic::create($request->all());
 
@@ -65,13 +77,27 @@ class TopicController extends Controller
      */
     public function show($id)
     {
-        if ($topic = Topic::find($id)) {
-            return Topic::with('questions')->descendantsAndSelf($topic->id)->toTree();
+        // return Topic::find($id)->with('questions')->hasChildren()->get()->toTree();
+
+        if ($this->isValidMenu($id)) {
+            return Topic::with('questions')->descendantsAndSelf($id)->toTree();
         }
 
         return $this->error('Topic not found', 404);
     }
 
+    public function isValidMenu($id)
+    {
+        $leaves = Topic::with('questions')->whereIsLeaf()->descendantsAndSelf($id)->toTree();
+
+        $validList = array();
+        foreach ($leaves as $leave) {
+            if ($leave->id != $id) {
+                array_push($validList, $leave);
+            }
+        }
+        return count($validList) > 0;
+    }
 
     /**
      * Update the specified resource in storage.
