@@ -27,7 +27,7 @@ use Illuminate\Support\Facades\Route;
 Route::prefix('v1')->group(function () {
     Route::prefix('topics')->group(function () {
         Route::get('/', [TopicController::class, 'getRoots']);
-        Route::get('/{topic}', [TopicController::class, 'show']);
+        Route::get('/{id}', [TopicController::class, 'show']);
     });
 
     Route::prefix('nlp')->group(function () {

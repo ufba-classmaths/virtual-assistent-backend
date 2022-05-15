@@ -4,9 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Topic;
 use App\Http\Requests\StoreTopicRequest;
-use App\Http\Requests\UpdateTopicRequest;
-use App\Models\Menu;
-use App\Models\Question;
 use App\Traits\ApiResponser;
 
 class TopicController extends Controller
@@ -78,10 +75,19 @@ class TopicController extends Controller
     public function show($id)
     {
 
-        $topic = Topic::find($id);
+        $topic = Topic::with('questions')->descendantsAndSelf($id)->toTree();
         if ($topic) {
-            if ($this->isValidMenu($id) && $topic->name != "") {
-                return Topic::with('questions')->descendantsAndSelf($id)->toTree();
+            $children = array();
+            if (count($topic[0]->children) > 0) {
+                foreach ($topic[0]->children as $child) {
+                    return $child;
+                    if ($this->isValidMenu($child->id) && $child->name != "") {
+                        array_push($children, $child);
+                    }
+                }
+                return array("id" => $topic[0]->id, "name" => $topic->name, "children" => $children);
+            } else {
+                return $topic[0]->questions;
             }
         }
 
@@ -90,14 +96,16 @@ class TopicController extends Controller
 
     public function isValidMenu($id)
     {
-        $leaves = Topic::with('questions')->whereIsLeaf()->descendantsAndSelf($id)->toTree();
+
+        return  $leaves = Topic::with('questions')->whereIsLeaf()->descendantsAndSelf($id)->toTree();
 
         $validList = array();
         foreach ($leaves as $leave) {
-            if ($leave->id != $id) {
+            if (count($leave->questions) > 0) {
                 array_push($validList, $leave);
             }
         }
+
         return count($validList) > 0;
     }
 
