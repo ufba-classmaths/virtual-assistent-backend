@@ -80,12 +80,11 @@ class TopicController extends Controller
             $children = array();
             if (count($topic[0]->children) > 0) {
                 foreach ($topic[0]->children as $child) {
-                    return $child;
                     if ($this->isValidMenu($child->id) && $child->name != "") {
                         array_push($children, $child);
                     }
                 }
-                return array("id" => $topic[0]->id, "name" => $topic->name, "children" => $children);
+                return [array("id" => $topic[0]->id, "name" => $topic[0]->name, "children" => $children)];
             } else {
                 return $topic[0]->questions;
             }
