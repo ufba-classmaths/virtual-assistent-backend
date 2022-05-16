@@ -18,7 +18,7 @@ class TopicController extends Controller
      */
     public function index()
     {
-        return  Topic::whereNotNull("name")->get()->toTree();
+        return  Topic::whereNotNull("name")->with('questions')->get()->toTree();
     }
 
     public function getRoots()
