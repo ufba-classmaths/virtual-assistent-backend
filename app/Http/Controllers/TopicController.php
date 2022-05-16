@@ -99,7 +99,7 @@ class TopicController extends Controller
     public function isValidMenu($id, $isRoot = false)
     {
 
-        return  $leaves = Topic::with('questions')->whereIsLeaf()->descendantsAndSelf($id)->toTree();
+        $leaves = Topic::with('questions')->whereIsLeaf()->descendantsAndSelf($id)->toTree();
 
         $validList = array();
         foreach ($leaves as $leave) {
