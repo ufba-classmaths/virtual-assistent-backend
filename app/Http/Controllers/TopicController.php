@@ -86,7 +86,10 @@ class TopicController extends Controller
                 }
                 return [array("id" => $topic[0]->id, "name" => $topic[0]->name, "children" => $children)];
             } else {
-                return [array("id" => $topic[0]->id, "name" => $topic[0]->name, "questions" => $topic[0]->questions)];
+                return [array(
+                    "id" => $topic[0]->id, "name" => $topic[0]->name, "questions" => $topic[0]->questions,
+                    "children" => $topic[0]->children
+                )];
             }
         }
 
