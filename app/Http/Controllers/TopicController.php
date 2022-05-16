@@ -26,7 +26,7 @@ class TopicController extends Controller
         $roots =   Topic::where("name", "<>", "")->with('questions')->whereIsRoot()->get()->toTree();
         $validRoots = array();
         foreach ($roots as $root) {
-            if ($this->isValidMenu($root->id)) {
+            if ($this->isValidMenu($root->id, true)) {
                 array_push($validRoots, $root);
             }
         }
@@ -93,13 +93,16 @@ class TopicController extends Controller
         return $this->error('Topic not found', 404);
     }
 
-    public function isValidMenu($id)
+    public function isValidMenu($id, $isRoot = false)
     {
 
         return  $leaves = Topic::with('questions')->whereIsLeaf()->descendantsAndSelf($id)->toTree();
 
         $validList = array();
         foreach ($leaves as $leave) {
+            if ($isRoot && count($leave->questions) == 0) {
+                continue;
+            }
             if (count($leave->questions) > 0) {
                 array_push($validList, $leave);
             }
