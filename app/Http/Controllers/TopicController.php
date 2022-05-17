@@ -23,7 +23,7 @@ class TopicController extends Controller
 
     public function getRoots()
     {
-        $roots =   Topic::where("name", "<>", "")->with('questions')->whereIsRoot()->get()->toTree();
+        $roots = Topic::where("name", "<>", "")->with('questions')->whereIsRoot()->get()->toTree();
         $validRoots = array();
         foreach ($roots as $root) {
             if ($this->isValidMenu($root->id, true)) {
@@ -76,7 +76,7 @@ class TopicController extends Controller
     {
 
         $topic = Topic::with('questions')->descendantsAndSelf($id)->toTree();
-        if ($topic) {
+        if (count($topic) > 0) {
             $children = array();
             if (count($topic[0]->children) > 0) {
                 foreach ($topic[0]->children as $child) {
