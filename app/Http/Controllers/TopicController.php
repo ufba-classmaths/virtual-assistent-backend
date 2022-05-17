@@ -16,11 +16,14 @@ class TopicController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+    // Return full tree with questions
     public function index()
     {
         return  Topic::whereNotNull("name")->with('questions')->get()->toTree();
     }
 
+    // Return only roots with children or questions
     public function getRoots()
     {
         $roots = Topic::where("name", "<>", "")->with('questions')->whereIsRoot()->get()->toTree();
@@ -46,6 +49,7 @@ class TopicController extends Controller
 
         return $this->success('Topic registred', 201);
     }
+
     /**
      * Store a newly created resource in storage.
      *
@@ -72,6 +76,8 @@ class TopicController extends Controller
      * @param  \App\Models\Topic  $topic
      * @return \Illuminate\Http\Response
      */
+
+    // Return a topic and its non-leaves children
     public function show($id)
     {
 
@@ -84,13 +90,39 @@ class TopicController extends Controller
                         array_push($children, $child);
                     }
                 }
-                return [array("id" => $topic[0]->id, "name" => $topic[0]->name, "children" => $children)];
-            } else {
-                return [array(
-                    "id" => $topic[0]->id, "name" => $topic[0]->name, "questions" => $topic[0]->questions,
-                    "children" => $topic[0]->children
-                )];
             }
+            return [array(
+                "id" => $topic[0]->id, "name" => $topic[0]->name, "questions" => $topic[0]->questions,
+                "children" => $children
+            )];
+        }
+
+        return $this->error('Topic not found', 404);
+    }
+
+    // Return topic and all its children except nameless ones
+    public function show_all($id)
+    {
+
+        $topic = Topic::with('questions')->descendantsAndSelf($id)->toTree();
+
+        if (count($topic) > 0) {
+            $children = array();
+
+            if (count($topic[0]->children) > 0) {
+                foreach ($topic[0]->children as $child) {
+                    if (trim($child->name) != "") {
+                        array_push($children, $child);
+                    }
+                }
+            }
+
+            return [array(
+                "id" => $topic[0]->id,
+                "name" => $topic[0]->name,
+                "questions" => $topic[0]->questions,
+                "children" => $children
+            )];
         }
 
         return $this->error('Topic not found', 404);
