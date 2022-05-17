@@ -184,7 +184,9 @@ class TopicTest extends TestCase
         $this->init();
 
         $topic_id = 0;
-        $root_topics = $this->get('/api/v1/topics/');
+        $root_topics = $this->withHeaders($this->headers)
+            ->get('/api/v3/topics/');
+
         for ($i = (count($root_topics->json())-1); $i >= 0; $i--){
             if($root_topics[$i]["name"] == $this->regular_topic["name"]){
                 $topic_id = $root_topics[$i]["id"];
@@ -223,7 +225,9 @@ class TopicTest extends TestCase
         $this->init();
 
         $topic_id = 0;
-        $root_topics = $this->get('/api/v1/topics/' . $this->existent_topic);
+        $root_topics = $this->withHeaders($this->headers)
+            ->get('/api/v3/topics/' . $this->existent_topic);
+
         $rtj = $root_topics->json();
         $existent_topic_children = $rtj[0]["children"];
         for ($i = (count($existent_topic_children)-1); $i >= 0; $i--){

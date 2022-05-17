@@ -96,7 +96,14 @@ class QuestionTest extends TestCase
         //assert
         $response->assertOk();
         // $this->assertCount(38, $response->json());
-        $this->assertEquals($responseJson, $this->questionReturned);
+        $response->assertJson(fn ($json) =>
+            $json->where('id', $this->questionReturned['id'])
+                 ->where('description', e($this->questionReturned['description']))
+                 ->where('answer', e($this->questionReturned['answer']))
+                 ->etc()
+        );
+        $this->assertEquals($responseJson['parents'], $this->questionReturned['parents']);
+        //$this->assertEquals($responseJson, $this->questionReturned);
     }
 
     public function test_get_an_especific_question_error()

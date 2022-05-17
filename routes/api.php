@@ -73,7 +73,7 @@ Route::prefix('v3')->group(
 
             Route::prefix('topics')->group(function () {
                 Route::get('/', [TopicController::class, 'index']);
-                Route::get('/{topic}', [TopicController::class, 'show']);
+                Route::get('/{topic}', [TopicController::class, 'show_all']);
                 Route::post('/', [TopicController::class, 'store']);
                 Route::post('/{parent}', [TopicController::class, 'storeWithParent']);
                 Route::patch('/{topic}', [TopicController::class, 'update']);
