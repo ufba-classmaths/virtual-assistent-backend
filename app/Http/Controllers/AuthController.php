@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\SendMailRequest;
 use App\Http\Requests\UserLoginRequest;
 use App\Mail\SendInvitation;
 use App\Models\User;
@@ -30,27 +31,34 @@ class AuthController extends Controller
      * @param  App\Http\Requests\StoreUserRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function sendInvitation($email)
+    public function sendInvitation(Request $request)
     {
+        $payload = $request->all();
+        $email = $payload['email'];
         if ($email) {
             $user = User::getUserDecripted($email);
             if ($user) {
                 return $this->error('Email já está cadastrado', 400);
             }
             try {
-                return   DB::transaction(function () use ($email) {
+                return   DB::transaction(function () use ($email, $payload) {
                     $password = bcrypt($email);
 
-                    $user = User::create([
-                        "email" => $email,
-                        "password" => $password
-                    ]);
+                    // $user = User::create([
+                    //     "email" => $email,
+                    //     "name" => $payload['name'],
+                    //     "password" => $password
+                    // ]);
 
-                    Http::accept('application/json')->post(env('API_SEND_EMAIL'), [
+                    $request = new SendMailRequest([
                         'email' => $email,
-                        'name' => $user->name,
+                        'name' => $payload['name'],
                         'isInvite' => true
                     ]);
+
+                    $result = SendMailController::send($request);
+
+                    return $result;
                     $email = explode('@', $email);
                     return $this->success(null, 'Email enviado para:  ' . substr($email[0], 0, 3) . '*****@' . substr($email[1], 0, 3) . '*****');
                 });
